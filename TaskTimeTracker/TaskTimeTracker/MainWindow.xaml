@@ -1,12 +1,45 @@
-﻿<Window x:Class="TaskTimeTracker.MainWindow"
+﻿<MahControls:MetroWindow x:Class="TaskTimeTracker.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskTimeTracker"
+        xmlns:MahControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Tasker" Height="500" Width="650" BorderBrush="#FF000019">
+    <MahControls:MetroWindow.RightWindowCommands>
+        <MahControls:WindowCommands>
+            <Button Content="Settings" />
+        </MahControls:WindowCommands>
+    </MahControls:MetroWindow.RightWindowCommands>
     <Grid>
-        <TextBlock>Hello world</TextBlock>
+        <Grid Name="grdMain">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <DockPanel Name="dpHeader"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBlock FontSize="30" DockPanel.Dock="Left">Current Task</TextBlock>
+                <TextBlock FontSize="30" DockPanel.Dock="Right" Width="100">12:30</TextBlock>
+            </DockPanel>
+            <DockPanel Name="dpMainContent" Grid.Column="0" Grid.Row="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="160" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Background="AliceBlue" Grid.Column="0" Grid.Row="0">
+                        <TextBlock>Task info stuff</TextBlock>
+                    </Grid>
+                    <Grid Background="AntiqueWhite" Grid.Column="1" Grid.Row="0">
+                        <TextBlock>Task info stuff</TextBlock>
+                    </Grid>
+                </Grid>
+            </DockPanel>
+        </Grid>
     </Grid>
-</Window>
+</MahControls:MetroWindow>
