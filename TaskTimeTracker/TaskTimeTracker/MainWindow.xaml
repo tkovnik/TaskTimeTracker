@@ -6,40 +6,92 @@
         xmlns:local="clr-namespace:TaskTimeTracker"
         xmlns:MahControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Tasker" Height="500" Width="650" BorderBrush="#FF000019">
+        Title="Tasker" Height="650" Width="750" BorderBrush="#FF000019">
     <MahControls:MetroWindow.RightWindowCommands>
         <MahControls:WindowCommands>
             <Button Content="Settings" />
         </MahControls:WindowCommands>
     </MahControls:MetroWindow.RightWindowCommands>
     <Grid>
-        <Grid Name="grdMain">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="40" />
-            </Grid.RowDefinitions>
-            <DockPanel Name="dpHeader"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock FontSize="30" DockPanel.Dock="Left">Current Task</TextBlock>
-                <TextBlock FontSize="30" DockPanel.Dock="Right" Width="100">12:30</TextBlock>
-            </DockPanel>
-            <DockPanel Name="dpMainContent" Grid.Column="0" Grid.Row="1">
-                <Grid>
+        <TabControl Name="tcMain" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" BorderBrush="AliceBlue" BorderThickness="0,2,0,0">
+            <TabItem Name="tiDay" Header="Main" BorderBrush="AliceBlue" BorderThickness="0, 0, 2, 0">
+                <Grid Name="grdMain">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="160" />
                     </Grid.ColumnDefinitions>
-                    <Grid Background="AliceBlue" Grid.Column="0" Grid.Row="0">
-                        <TextBlock>Task info stuff</TextBlock>
-                    </Grid>
-                    <Grid Background="AntiqueWhite" Grid.Column="1" Grid.Row="0">
-                        <TextBlock>Task info stuff</TextBlock>
-                    </Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <DockPanel Name="dpHeader"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock FontSize="30" DockPanel.Dock="Left">Current Task</TextBlock>
+                        <TextBlock FontSize="30" DockPanel.Dock="Right" Width="100">12:30</TextBlock>
+                    </DockPanel>
+                    <DockPanel Name="dpMainContent" Grid.Column="0" Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="160" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Background="AliceBlue" Grid.Column="0" Grid.Row="0">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Task:</TextBlock>
+                                    <TextBox Name="tbName" Margin="5" FontSize="16"></TextBox>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Description:</TextBlock>
+                                    <TextBox Name="tbDescription" Margin="5" FontSize="14" TextWrapping="Wrap" AcceptsReturn="True" Height="100"></TextBox>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Group:</TextBlock>
+                                    <GroupBox>
+                                        <StackPanel>
+                                    <TextBox Name="tbTaskGroup" Margin="5" FontSize="14"></TextBox>
+                                    <WrapPanel Orientation="Horizontal" Margin="5,0,0,0">
+                                        <!--<WrapPanel.Resources>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Margin" Value="0,0,10,0" />
+                                            </Style>
+                                        </WrapPanel.Resources>-->
+                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Group 1</Button>
+                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Group 2</Button>
+                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Longer group 1</Button>
+                                    </WrapPanel>
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Keywords:</TextBlock>
+                                    <GroupBox>
+                                        <StackPanel>
+                                            <TextBox Name="tbKeywords" Margin="5" FontSize="14"></TextBox>
+                                            <WrapPanel Orientation="Horizontal" Margin="5,0,0,0">
+                                                <!--<WrapPanel.Resources>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Margin" Value="0,0,10,0" />
+                                            </Style>
+                                        </WrapPanel.Resources>-->
+                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Keyword 1</Button>
+                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Keyword 2</Button>
+                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Keyword 3</Button>
+                                            </WrapPanel>
+                                            <TextBlock HorizontalAlignment="Center" FontWeight="Medium">More..</TextBlock>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </StackPanel>
+                                
+                            </Grid>
+                            <Grid Background="AntiqueWhite" Grid.Column="1" Grid.Row="0">
+                                <TextBlock>Task info stuff</TextBlock>
+                            </Grid>
+                        </Grid>
+                    </DockPanel>
                 </Grid>
-            </DockPanel>
-        </Grid>
+            </TabItem>
+
+            <TabItem Name="tiStatistics" Header="Statistics" BorderBrush="AliceBlue" BorderThickness="0, 0, 2, 0">
+                
+            </TabItem>
+
+            <TabItem Name="tiTest" Header="Header 3">
+
+            </TabItem>
+
+        </TabControl>
     </Grid>
 </MahControls:MetroWindow>

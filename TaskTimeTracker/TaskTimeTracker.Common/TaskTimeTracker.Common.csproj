@@ -42,6 +42,7 @@
     <EmbeddedResource Include="Translation\Lang.sl-SI.resx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Iteration.cs" />
     <Compile Include="Model\Task.cs" />
     <Compile Include="Model\TaskGroup.cs" />
     <Compile Include="Model\TaskTimeFrame.cs" />
