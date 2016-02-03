@@ -11,7 +11,7 @@ namespace TaskTimeTracker.Common.Model
     /// Task can be interrupted with other task taking priority (new ongoing task)
     /// So every task can have multiple timeframes
     /// </summary>
-    public class TaskTimeFrame : INotifyPropertyChanged
+    public class DutyTimeFrame : INotifyPropertyChanged
     {
         #region Fields
 
@@ -22,7 +22,7 @@ namespace TaskTimeTracker.Common.Model
 
         #region Constructors
 
-        public TaskTimeFrame()
+        public DutyTimeFrame()
         {
             From = DateTime.Now;
         }

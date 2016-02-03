@@ -42,10 +42,11 @@
     <EmbeddedResource Include="Translation\Lang.sl-SI.resx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLogic\DutyProvider.cs" />
     <Compile Include="Model\Iteration.cs" />
-    <Compile Include="Model\Task.cs" />
-    <Compile Include="Model\TaskGroup.cs" />
-    <Compile Include="Model\TaskTimeFrame.cs" />
+    <Compile Include="Model\Duty.cs" />
+    <Compile Include="Model\DutyGroup.cs" />
+    <Compile Include="Model\DutyTimeFrame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Translation\Lang.Designer.cs">
       <AutoGen>True</AutoGen>

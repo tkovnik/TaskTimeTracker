@@ -17,7 +17,7 @@ namespace TaskTimeTracker.Common.Model
         private string _Name;
         private string _Description;
 
-        private List<Task> _Tasks;
+        private List<Duty> _Duties;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace TaskTimeTracker.Common.Model
 
         public Iteration()
         {
-            _Tasks = new List<Task>();
+            _Duties = new List<Duty>();
         }
 
         #endregion
@@ -58,13 +58,13 @@ namespace TaskTimeTracker.Common.Model
             }
         }
 
-        public List<Task> Tasks
+        public List<Duty> Duties
         {
-            get { return _Tasks; }
+            get { return _Duties; }
             set
             {
-                _Tasks = value;
-                NotifyPropertyChanged("Description");
+                _Duties = value;
+                NotifyPropertyChanged("Duties");
             }
         }
 

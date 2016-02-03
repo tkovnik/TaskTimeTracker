@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TaskTimeTracker.Common.Model
 {
-    public class TaskGroup : INotifyPropertyChanged
+    public class DutyGroup : INotifyPropertyChanged
     {
         #region Fields
 

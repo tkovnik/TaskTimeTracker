@@ -8,34 +8,37 @@ using TaskTimeTracker.Common.Translation;
 
 namespace TaskTimeTracker.Common.Model
 {
-    public class Task : INotifyPropertyChanged
+    public class Duty : INotifyPropertyChanged
     {
         #region Fields
 
         private string _Name;
         private string _Description;
         private string _Keywords;
-        private int _TaskStatus;
+        private int _Status;
 
-        private TaskGroup _Group;
-        private List<TaskTimeFrame> TimeFrames;
+        private DutyGroup _Group;
+        private List<DutyTimeFrame> _TimeFrames;
 
         #endregion
 
         #region Constructors
 
-        public Task()
+        public Duty()
             :this(null)
         {
         }
 
-        public Task(string name)
+        public Duty(string name)
         {
-            TimeFrames = new List<TaskTimeFrame>();
+            _TimeFrames = new List<DutyTimeFrame>();
+
+            //should we set here status of duty or let the business logic take care of this?
+            //_Status = (int)DutyStatus.Ongoing;
 
             //Adding the first timeframe
-            TaskTimeFrame ttf = new TaskTimeFrame();
-            TimeFrames.Add(ttf);
+            DutyTimeFrame ttf = new DutyTimeFrame();
+            _TimeFrames.Add(ttf);
 
             //setting default name if it's not provided
             if (string.IsNullOrWhiteSpace(name))
@@ -74,7 +77,7 @@ namespace TaskTimeTracker.Common.Model
             }
         }
 
-        public TaskGroup Group
+        public DutyGroup Group
         {
             get { return _Group; }
             set
@@ -100,17 +103,22 @@ namespace TaskTimeTracker.Common.Model
             }
         }
 
-        public int TaskStatus
+        public int Status
         {
-            get { return _TaskStatus; }
+            get { return _Status; }
             set
             {
-                if (_TaskStatus != value)
+                if (_Status != value)
                 {
-                    _TaskStatus = value;
-                    NotifyPropertyChanged("TaskStatus");
+                    _Status = value;
+                    NotifyPropertyChanged("Status");
                 }
             }
+        }
+
+        public List<DutyTimeFrame> TimeFrames
+        {
+            get { return _TimeFrames; }
         }
 
         #endregion
@@ -130,7 +138,7 @@ namespace TaskTimeTracker.Common.Model
         #endregion
     }
 
-    public enum TaskStatus
+    public enum DutyStatus
     {
         Ongoing = 0,
         Paused = 1,
