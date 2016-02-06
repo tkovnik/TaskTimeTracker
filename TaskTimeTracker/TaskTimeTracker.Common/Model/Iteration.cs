@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace TaskTimeTracker.Common.Model
         private string _Name;
         private string _Description;
 
-        private List<Duty> _Duties;
+        private ObservableCollection<Duty> _Duties;
 
         #endregion
 
@@ -25,7 +26,7 @@ namespace TaskTimeTracker.Common.Model
 
         public Iteration()
         {
-            _Duties = new List<Duty>();
+            _Duties = new ObservableCollection<Duty>();
         }
 
         #endregion
@@ -58,7 +59,7 @@ namespace TaskTimeTracker.Common.Model
             }
         }
 
-        public List<Duty> Duties
+        public ObservableCollection<Duty> Duties
         {
             get { return _Duties; }
             set

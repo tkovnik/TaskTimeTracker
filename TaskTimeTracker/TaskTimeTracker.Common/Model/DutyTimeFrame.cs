@@ -77,6 +77,15 @@ namespace TaskTimeTracker.Common.Model
 
         #endregion
 
+        #region Overrides
+
+        public override string ToString()
+        {
+            return To.HasValue ? string.Format("{0} - {1}", From.ToString(), To.Value.ToString()) : From.ToString();
+        }
+
+        #endregion
+
         #region INotify
 
         public event PropertyChangedEventHandler PropertyChanged;

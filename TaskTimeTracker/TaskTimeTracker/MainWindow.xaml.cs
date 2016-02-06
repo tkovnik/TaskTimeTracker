@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TaskTimeTracker.View;
+using TaskTimeTracker.ViewModel;
 
 namespace TaskTimeTracker
 {
@@ -22,12 +23,24 @@ namespace TaskTimeTracker
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        Workspace workspace;
         public MainWindow()
         {
             InitializeComponent();
 
             //apply main view model
-            this.DataContext = new Workspace();
+            workspace = new Workspace();
+            this.DataContext = workspace;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            workspace.NewDuty();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            //workspace.ListTest.Add("D");
         }
     }
 }

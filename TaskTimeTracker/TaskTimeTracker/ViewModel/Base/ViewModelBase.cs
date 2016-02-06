@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskTimeTracker.View.Base
+namespace TaskTimeTracker.ViewModel.Base
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

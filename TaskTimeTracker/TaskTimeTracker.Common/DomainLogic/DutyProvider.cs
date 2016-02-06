@@ -58,7 +58,8 @@ namespace TaskTimeTracker.Common.DomainLogic
 
         public void StartNewDuty()
         {
-            //TODO: if we have current ongoing duty we have to pause it
+            //first we have to pause current ongoing duty
+            PauseCurrentDuty();
 
             Duty duty = new Duty();
             duty.Status = (int)DutyStatus.Ongoing;
@@ -67,19 +68,72 @@ namespace TaskTimeTracker.Common.DomainLogic
             OngoingDuty = duty;
         }
 
-        public void FinishDuty(Duty duty)
+        /// <summary>
+        /// Method finishes given duty and unapuses prevous duty if exists
+        /// </summary>
+        /// <param name="duty"></param>
+        public void FinishDutyAndUnpausePrevious()
         {
-            //if we don't have no timeframe we should fall
-            var lastTimeFrame = duty.TimeFrames.Last();
-            lastTimeFrame.To = DateTime.Now;
+            FinishDuty(OngoingDuty);
 
-            duty.Status = (int)DutyStatus.Completed;
+            Duty previousDuty = _Iteration.Duties.LastOrDefault(a => a.Status == (int)DutyStatus.Paused);
 
-            //TODO: Should we unpause previous ongoing duty?
-            //TODO: should we start new duty if all previous duties are completed?
+            if (previousDuty != null)
+                UnpauseDuty(previousDuty);
+            else
+                StartNewDuty();
+        }
+
+        public void FinishDutyAndStartNew()
+        {
+            FinishDuty(OngoingDuty);
+
+            StartNewDuty();
+        }
+
+        public void UnpauseDuty(Duty duty)
+        {
+            if(_OngoingDuty != duty)
+            {
+                //first we have to pause current ongoing duty
+                PauseCurrentDuty();
+
+                duty.TimeFrames.Add(new DutyTimeFrame() { From = DateTime.Now });
+                duty.Status = (int)DutyStatus.Ongoing;
+                _OngoingDuty = duty;
+            }
         }
 
         #endregion
+
+        private void FinishDuty(Duty duty)
+        {
+            if (duty.Status != (int)DutyStatus.Completed)
+            {
+                //lets close last time frame
+                DutyTimeFrame lastTimeFrame = duty.TimeFrames.Last();
+
+                lastTimeFrame.To = DateTime.Now;
+
+                duty.Status = (int)DutyStatus.Completed;
+            }
+        }
+
+        private void PauseCurrentDuty()
+        {
+            if(_Iteration.Duties.Count > 0)
+            {
+                Duty currentlyOngoingDuty = _Iteration.Duties.FirstOrDefault(a => a.Status == (int)DutyStatus.Ongoing);
+
+                if(currentlyOngoingDuty != null)
+                {
+                    currentlyOngoingDuty.Status = (int)DutyStatus.Paused;
+                    //we must end last time frame for this duty
+                    DutyTimeFrame tf = currentlyOngoingDuty.TimeFrames.Last();
+                    tf.To = DateTime.Now;
+                }
+            }
+        }
 
         #region INotify
 

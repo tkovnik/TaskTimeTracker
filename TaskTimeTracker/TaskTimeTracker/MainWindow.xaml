@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskTimeTracker"
         xmlns:MahControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:myControls="clr-namespace:TaskTimeTracker.View.Controls"
         mc:Ignorable="d"
-        Title="Tasker" Height="650" Width="750" BorderBrush="#FF000019">
+        Title="Tasker" Height="650" Width="850" BorderBrush="#FF000019">
     <MahControls:MetroWindow.RightWindowCommands>
         <MahControls:WindowCommands>
             <Button Content="Settings" />
@@ -32,12 +33,12 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="190" />
                             </Grid.ColumnDefinitions>
                             <Grid Background="AliceBlue" Grid.Column="0" Grid.Row="0">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Task:</TextBlock>
-                                    <TextBox Name="tbName" Margin="5" FontSize="16"></TextBox>
+                                    <TextBox Name="tbName" Margin="5" FontSize="16" Text="{Binding CurrentDuty.Name, Mode=TwoWay}"></TextBox>
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Description:</TextBlock>
                                     <TextBox Name="tbDescription" Margin="5" FontSize="14" TextWrapping="Wrap" AcceptsReturn="True" Height="100"></TextBox>
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Group:</TextBlock>
@@ -50,8 +51,8 @@
                                                 <Setter Property="Margin" Value="0,0,10,0" />
                                             </Style>
                                         </WrapPanel.Resources>-->
-                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Group 1</Button>
-                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Group 2</Button>
+                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0" Click="Button_Click">Group 1</Button>
+                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0" Click="Button_Click_1">Group 2</Button>
                                         <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Longer group 1</Button>
                                     </WrapPanel>
                                         </StackPanel>
@@ -77,7 +78,14 @@
                                 
                             </Grid>
                             <Grid Background="AntiqueWhite" Grid.Column="1" Grid.Row="0">
-                                <TextBlock>Task info stuff</TextBlock>
+                                <ListView Name="lvDuties" ItemsSource="{Binding Provider.Iteration.Duties}"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <myControls:DutyListItem Margin="0,0,0,5" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                             </Grid>
                         </Grid>
                     </DockPanel>

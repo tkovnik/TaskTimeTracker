@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="TaskTimeTracker.View.Controls.DutyListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TaskTimeTracker.View.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="42" d:DesignWidth="170">
+    <Grid Height="42" Width="160">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.15*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Canvas Grid.Column="0" Background="Green" Margin="2,5,5,5"/>
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,3,2,2">
+                <TextBlock Name="tbDutyName" FontSize="10" FontWeight="DemiBold" HorizontalAlignment="Center" >TASK 101</TextBlock>
+                <Border BorderThickness="0,1,0,0" BorderBrush="Gray"/>
+                <TextBlock FontSize="8" FontWeight="DemiBold" FontStyle="Italic">DutyGroup1, DutyGroup2</TextBlock>
+                <TextBlock FontSize="7" VerticalAlignment="Stretch">Keyword1, Keyword2, keyword3</TextBlock>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</UserControl>
