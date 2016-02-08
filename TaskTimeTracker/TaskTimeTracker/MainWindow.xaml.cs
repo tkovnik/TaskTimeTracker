@@ -42,5 +42,10 @@ namespace TaskTimeTracker
         {
             //workspace.ListTest.Add("D");
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            workspace.Provider.FinishDutyAndUnpausePrevious();
+        }
     }
 }

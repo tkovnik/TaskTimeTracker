@@ -53,14 +53,14 @@
                                         </WrapPanel.Resources>-->
                                         <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0" Click="Button_Click">Group 1</Button>
                                         <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0" Click="Button_Click_1">Group 2</Button>
-                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Longer group 1</Button>
+                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0" Click="Button_Click_2">Longer group 1</Button>
                                     </WrapPanel>
                                         </StackPanel>
                                     </GroupBox>
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Keywords:</TextBlock>
                                     <GroupBox>
                                         <StackPanel>
-                                            <TextBox Name="tbKeywords" Margin="5" FontSize="14"></TextBox>
+                                            <TextBox Name="tbKeywords" Margin="5" FontSize="14" Text="{Binding CurrentDuty.Keywords, Mode=TwoWay}"></TextBox>
                                             <WrapPanel Orientation="Horizontal" Margin="5,0,0,0">
                                                 <!--<WrapPanel.Resources>
                                             <Style TargetType="Button">

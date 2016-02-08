@@ -4,20 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaskTimeTracker.View.Controls"
+             xmlns:conv="clr-namespace:TaskTimeTracker.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="42" d:DesignWidth="170">
-    <Grid Height="42" Width="160">
+             d:DesignHeight="45" d:DesignWidth="180">
+    <UserControl.Resources>
+        <conv:DutyStatusColorConverter x:Key="converter" />
+    </UserControl.Resources>
+    <Grid Height="45" Width="180">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.15*" />
+                <ColumnDefinition Width="0.1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Canvas Grid.Column="0" Background="Green" Margin="2,5,5,5"/>
+            <Rectangle Grid.Column="0" Margin="2,1,5,1">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding Status, Converter={StaticResource converter}}" />
+                </Rectangle.Fill>
+            </Rectangle>
             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,3,2,2">
-                <TextBlock Name="tbDutyName" FontSize="10" FontWeight="DemiBold" HorizontalAlignment="Center" >TASK 101</TextBlock>
+                <TextBlock Name="tbDutyName" FontSize="11" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding Name}"></TextBlock>
                 <Border BorderThickness="0,1,0,0" BorderBrush="Gray"/>
-                <TextBlock FontSize="8" FontWeight="DemiBold" FontStyle="Italic">DutyGroup1, DutyGroup2</TextBlock>
-                <TextBlock FontSize="7" VerticalAlignment="Stretch">Keyword1, Keyword2, keyword3</TextBlock>
+                <TextBlock FontSize="10" FontWeight="DemiBold" FontStyle="Italic" Text="{Binding Group.Name}"></TextBlock>
+                <TextBlock FontSize="8" VerticalAlignment="Stretch" Text="{Binding Keywords}"></TextBlock>
             </StackPanel>
         </Grid>
 
