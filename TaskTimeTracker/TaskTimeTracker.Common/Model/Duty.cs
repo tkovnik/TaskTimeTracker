@@ -121,6 +121,27 @@ namespace TaskTimeTracker.Common.Model
             get { return _TimeFrames; }
         }
 
+        /// <summary>
+        /// Gets total time spent on this duty
+        /// </summary>
+        public TimeSpan TotalTimeSpent
+        {
+            get
+            {
+                TimeSpan ts = new TimeSpan(0, 0, 0);
+
+                foreach (var item in TimeFrames)
+                {
+                    if(item.SpentTime.HasValue)
+                    {
+                        ts += item.SpentTime.Value;
+                    }
+                }
+
+                return ts;
+            }
+        }
+
         #endregion
 
         #region INotify

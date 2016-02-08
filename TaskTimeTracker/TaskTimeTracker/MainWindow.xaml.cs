@@ -45,7 +45,7 @@ namespace TaskTimeTracker
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            workspace.Provider.FinishDutyAndUnpausePrevious();
+            workspace.FinishDutyAndUnpausePrevious();
         }
     }
 }
