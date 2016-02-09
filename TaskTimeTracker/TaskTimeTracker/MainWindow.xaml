@@ -13,9 +13,9 @@
             <Button Content="Settings" />
         </MahControls:WindowCommands>
     </MahControls:MetroWindow.RightWindowCommands>
-    <Grid>
-        <TabControl Name="tcMain" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" BorderBrush="AliceBlue" BorderThickness="0,2,0,0">
-            <TabItem Name="tiDay" Header="Main" BorderBrush="AliceBlue" BorderThickness="0, 0, 2, 0">
+    <Grid Background="#FBFCFC">
+        <TabControl Name="tcMain" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5"  BorderThickness="0,2,0,0">
+            <TabItem Name="tiDay" Header="Main" BorderBrush="#3FB0E0" BorderThickness="0, 0, 2, 0">
                 <Grid Name="grdMain">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -25,40 +25,57 @@
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
-                    <DockPanel Name="dpHeader"  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock FontSize="30" DockPanel.Dock="Left">Current Task</TextBlock>
-                        <TextBlock FontSize="30" DockPanel.Dock="Right" Width="250" Text="{Binding ElapsedTime}"></TextBlock>
-                    </DockPanel>
+                    <Grid Name="grdHeader" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="3" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <!--<TextBlock FontSize="30">Current Task</TextBlock>-->
+                            <TextBlock FontSize="30" Width="250" Text="{Binding ElapsedTime}" HorizontalAlignment="Right" FontWeight="ExtraBold" Foreground="#3FB0E0"></TextBlock>
+                        </StackPanel>
+                        <!--<Border BorderThickness="0,0,0,3" BorderBrush="#E8EEF1" Margin="-8,0,-8,0" Grid.Row="1" />-->
+                    </Grid>
                     <DockPanel Name="dpMainContent" Grid.Column="0" Grid.Row="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
                                 <ColumnDefinition Width="190" />
                             </Grid.ColumnDefinitions>
-                            <Grid Background="AliceBlue" Grid.Column="0" Grid.Row="0">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Task:</TextBlock>
-                                    <TextBox Name="tbName" Margin="5" FontSize="16" Text="{Binding CurrentDuty.Name, Mode=TwoWay}"></TextBox>
-                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Description:</TextBlock>
-                                    <TextBox Name="tbDescription" Margin="5" FontSize="14" TextWrapping="Wrap" AcceptsReturn="True" Height="100"></TextBox>
-                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Group:</TextBlock>
-                                    <GroupBox>
+                            <Grid Grid.Column="0" Grid.Row="0">
+                                <Grid Margin="0,0,10,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="38" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="100" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="100" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Foreground="#3FB0E0" Grid.Row="0">Task:</TextBlock>
+                                    <TextBox Name="tbName" Margin="5" FontSize="16" Text="{Binding CurrentDuty.Name, Mode=TwoWay}" Grid.Row="1"/>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="2" Foreground="#3FB0E0">Description:</TextBlock>
+                                    <TextBox Name="tbDescription" Margin="5" FontSize="14" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="3" VerticalAlignment="Stretch" />
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="4" Foreground="#3FB0E0">Group:</TextBlock>
+                                    <GroupBox Grid.Row="5">
                                         <StackPanel>
-                                    <TextBox Name="tbTaskGroup" Margin="5" FontSize="14"></TextBox>
-                                    <WrapPanel Orientation="Horizontal" Margin="5,0,0,0">
-                                        <!--<WrapPanel.Resources>
+                                            <TextBox Name="tbTaskGroup" Margin="5" FontSize="14"></TextBox>
+                                            <WrapPanel Orientation="Horizontal" Margin="5,0,0,0">
+                                                <!--<WrapPanel.Resources>
                                             <Style TargetType="Button">
                                                 <Setter Property="Margin" Value="0,0,10,0" />
                                             </Style>
                                         </WrapPanel.Resources>-->
-                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0" Click="Button_Click">Group 1</Button>
-                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0" Click="Button_Click_1">Group 2</Button>
-                                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0" Click="Button_Click_2">Longer group 1</Button>
-                                    </WrapPanel>
+                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Group 1</Button>
+                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Group 2</Button>
+                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Longer group 1</Button>
+                                            </WrapPanel>
                                         </StackPanel>
                                     </GroupBox>
-                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold">Keywords:</TextBlock>
-                                    <GroupBox>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="6" Foreground="#3FB0E0">Keywords:</TextBlock>
+                                    <GroupBox VerticalAlignment="Stretch" Grid.Row="7">
                                         <StackPanel>
                                             <TextBox Name="tbKeywords" Margin="5" FontSize="14" Text="{Binding CurrentDuty.Keywords, Mode=TwoWay}"></TextBox>
                                             <WrapPanel Orientation="Horizontal" Margin="5,0,0,0">
@@ -74,12 +91,12 @@
                                             <TextBlock HorizontalAlignment="Center" FontWeight="Medium">More..</TextBlock>
                                         </StackPanel>
                                     </GroupBox>
-                                </StackPanel>
+                                </Grid>
                                 
                             </Grid>
-                            <Grid Background="AntiqueWhite" Grid.Column="1" Grid.Row="0">
+                            <Grid Grid.Column="1" Grid.Row="0">
                                 <ListView Name="lvDuties" ItemsSource="{Binding Provider.Iteration.Duties}"
-                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="#E8EEF1" BorderThickness="3,0,0,0" Background="#FBFCFC">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <myControls:DutyListItem Margin="0,0,0,5" />
@@ -89,10 +106,18 @@
                             </Grid>
                         </Grid>
                     </DockPanel>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Button Width="100" Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Command="{Binding StartNewDutyCommand}" BorderBrush="#BB4D4D" Background="#BB4D4D">Start New</Button>
+                        <Border BorderThickness="2,0,0,0" BorderBrush="#E8EEF1" Margin="5" />
+                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Margin="0,0,5,0" Command="{Binding FinishDutyAndStartNewCommand}" BorderBrush="#49BF4B" Background="#49BF4B">Finish and start new</Button>
+                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Command="{Binding FinishDutyAndUnpausePreviousCommand}" BorderBrush="#49BF4B" Background="#49BF4B">Finish and unpause previous</Button>
+                        <Border BorderThickness="2,0,0,0" BorderBrush="#E8EEF1" Margin="5" />
+                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" BorderBrush="#CFC739" Background="#CFC739">Pause current</Button>
+                    </StackPanel>
                 </Grid>
             </TabItem>
 
-            <TabItem Name="tiStatistics" Header="Statistics" BorderBrush="AliceBlue" BorderThickness="0, 0, 2, 0">
+            <TabItem Name="tiStatistics" Header="Statistics" BorderBrush="#3FB0E0" BorderThickness="0, 0, 2, 0">
                 
             </TabItem>
 

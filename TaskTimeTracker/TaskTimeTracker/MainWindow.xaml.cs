@@ -32,20 +32,5 @@ namespace TaskTimeTracker
             workspace = new Workspace();
             this.DataContext = workspace;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            workspace.NewDuty();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            //workspace.ListTest.Add("D");
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            workspace.FinishDutyAndUnpausePrevious();
-        }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using TaskTimeTracker.Command;
 using TaskTimeTracker.Common.DomainLogic;
 using TaskTimeTracker.Common.Model;
 using TaskTimeTracker.ViewModel.Base;
@@ -84,27 +85,91 @@ namespace TaskTimeTracker.ViewModel
 
         #endregion
 
-        public void NewDuty()
+        #region Private Methods
+
+        private void StartNewDuty()
         {
             _Provider.StartNewDuty();
             NotifyPropertyChanged(() => this.CurrentDuty);
-            SetTimerAdStart();
+            SetAndStartTimer();
         }
 
-        public void FinishDutyAndUnpausePrevious()
+        private void FinishDutyAndUnpausePrevious()
         {
             _Provider.FinishDutyAndUnpausePrevious();
             NotifyPropertyChanged(() => this.CurrentDuty);
-            SetTimerAdStart();
+            SetAndStartTimer();
         }
 
-        private void SetTimerAdStart()
+        private void FinishDutyAndStartNew()
+        {
+            _Provider.FinishDutyAndStartNew();
+            NotifyPropertyChanged(() => this.CurrentDuty);
+            SetAndStartTimer();
+        }
+
+        private void SetAndStartTimer()
         {
             _Elapsed = CurrentDuty.TotalTimeSpent;
             ElapsedTime = CurrentDuty.TotalTimeSpent.ToString("hh\\:mm\\:ss");
 
-            if(!_Timer.IsEnabled)
+            if (!_Timer.IsEnabled)
                 _Timer.Start();
         }
+
+        #endregion
+
+        #region Commands
+
+        #region Duty Commands
+
+        RelayCommand _StartNewDutyCommand;
+
+        public RelayCommand StartNewDutyCommand
+        {
+            get
+            {
+                if(_StartNewDutyCommand == null)
+                {
+                    _StartNewDutyCommand = new RelayCommand((p) => StartNewDuty());
+                }
+
+                return _StartNewDutyCommand;
+            }
+        }
+
+        RelayCommand _FinishDutyAndUnpausePreviousCommand;
+
+        public RelayCommand FinishDutyAndUnpausePreviousCommand
+        {
+            get
+            {
+                if(_FinishDutyAndUnpausePreviousCommand == null)
+                {
+                    _FinishDutyAndUnpausePreviousCommand = new RelayCommand((p) => FinishDutyAndUnpausePrevious());
+                }
+
+                return _FinishDutyAndUnpausePreviousCommand;
+            }
+        }
+
+        RelayCommand _FinishDutyAndStartNewCommand;
+
+        public RelayCommand FinishDutyAndStartNewCommand
+        {
+            get
+            {
+                if(_FinishDutyAndStartNewCommand == null)
+                {
+                    _FinishDutyAndStartNewCommand = new RelayCommand((p) => FinishDutyAndStartNew());
+                }
+
+                return _FinishDutyAndStartNewCommand;
+            }
+        }
+
+        #endregion
+
+        #endregion
     }
 }

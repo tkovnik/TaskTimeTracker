@@ -19,11 +19,11 @@ namespace TaskTimeTracker.Converters
             switch (status)
             {
                 case DutyStatus.Ongoing:
-                    return Colors.Red;
+                    return ColorConverter.ConvertFromString("#BB4D4D");
                 case DutyStatus.Paused:
-                    return Colors.Orange;
+                    return ColorConverter.ConvertFromString("#CFC739");
                 case DutyStatus.Completed:
-                    return Colors.Green;
+                    return ColorConverter.ConvertFromString("#49BF4B");
                 default:
                     return Colors.Pink;
             }
