@@ -10,12 +10,12 @@
         Title="Tasker" Height="650" Width="850" BorderBrush="#FF000019">
     <MahControls:MetroWindow.RightWindowCommands>
         <MahControls:WindowCommands>
-            <Button Content="Settings" />
+            <Button Content="Settings" Command="{Binding OpenSettingsCommand}"/>
         </MahControls:WindowCommands>
     </MahControls:MetroWindow.RightWindowCommands>
-    <Grid Background="#FBFCFC">
+    <Grid>
         <TabControl Name="tcMain" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5"  BorderThickness="0,2,0,0">
-            <TabItem Name="tiDay" Header="Main" BorderBrush="#3FB0E0" BorderThickness="0, 0, 2, 0">
+            <TabItem Name="tiDay" Header="Main" BorderBrush="#E8EEF1" BorderThickness="0, 0, 2, 0">
                 <Grid Name="grdMain">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -32,7 +32,7 @@
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Row="0">
                             <!--<TextBlock FontSize="30">Current Task</TextBlock>-->
-                            <TextBlock FontSize="30" Width="250" Text="{Binding ElapsedTime}" HorizontalAlignment="Right" FontWeight="ExtraBold" Foreground="#3FB0E0"></TextBlock>
+                            <TextBlock FontSize="30" Width="250" Text="{Binding ElapsedTime}" HorizontalAlignment="Right" FontWeight="ExtraBold" Foreground="{DynamicResource AccentColorBrush}"></TextBlock>
                         </StackPanel>
                         <!--<Border BorderThickness="0,0,0,3" BorderBrush="#E8EEF1" Margin="-8,0,-8,0" Grid.Row="1" />-->
                     </Grid>
@@ -46,7 +46,7 @@
                                 <Grid Margin="0,0,10,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="28" />
-                                        <RowDefinition Height="38" />
+                                        <RowDefinition Height="40" />
                                         <RowDefinition Height="28" />
                                         <RowDefinition Height="1*" />
                                         <RowDefinition Height="28" />
@@ -54,11 +54,11 @@
                                         <RowDefinition Height="28" />
                                         <RowDefinition Height="100" />
                                     </Grid.RowDefinitions>
-                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Foreground="#3FB0E0" Grid.Row="0">Task:</TextBlock>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}" >Task:</TextBlock>
                                     <TextBox Name="tbName" Margin="5" FontSize="16" Text="{Binding CurrentDuty.Name, Mode=TwoWay}" Grid.Row="1"/>
-                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="2" Foreground="#3FB0E0">Description:</TextBlock>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="2" Foreground="{DynamicResource AccentColorBrush}">Description:</TextBlock>
                                     <TextBox Name="tbDescription" Margin="5" FontSize="14" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="3" VerticalAlignment="Stretch" />
-                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="4" Foreground="#3FB0E0">Group:</TextBlock>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="4" Foreground="{DynamicResource AccentColorBrush}">Group:</TextBlock>
                                     <GroupBox Grid.Row="5">
                                         <StackPanel>
                                             <TextBox Name="tbTaskGroup" Margin="5" FontSize="14"></TextBox>
@@ -74,7 +74,7 @@
                                             </WrapPanel>
                                         </StackPanel>
                                     </GroupBox>
-                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="6" Foreground="#3FB0E0">Keywords:</TextBlock>
+                                    <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="6" Foreground="{DynamicResource AccentColorBrush}">Keywords:</TextBlock>
                                     <GroupBox VerticalAlignment="Stretch" Grid.Row="7">
                                         <StackPanel>
                                             <TextBox Name="tbKeywords" Margin="5" FontSize="14" Text="{Binding CurrentDuty.Keywords, Mode=TwoWay}"></TextBox>
@@ -96,7 +96,7 @@
                             </Grid>
                             <Grid Grid.Column="1" Grid.Row="0">
                                 <ListView Name="lvDuties" ItemsSource="{Binding Provider.Iteration.Duties}"
-                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="#E8EEF1" BorderThickness="3,0,0,0" Background="#FBFCFC">
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="#E8EEF1" BorderThickness="3,0,0,0">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <myControls:DutyListItem Margin="0,0,0,5" />
@@ -117,7 +117,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Name="tiStatistics" Header="Statistics" BorderBrush="#3FB0E0" BorderThickness="0, 0, 2, 0">
+            <TabItem Name="tiStatistics" Header="Statistics" BorderBrush="#E8EEF1" BorderThickness="0, 0, 2, 0">
                 
             </TabItem>
 
@@ -127,4 +127,22 @@
 
         </TabControl>
     </Grid>
+    <MahControls:MetroWindow.Flyouts>
+        <MahControls:FlyoutsControl>
+            <MahControls:Flyout Header="Settings" Position="Right" Width="300" IsOpen="{Binding IsSettingsOpen}" Theme="Inverse">
+                <TabControl>
+                    <TabItem Name="tiAppearance" Header="Appearance">
+                        <ContentPresenter>
+                            <ContentPresenter.Content>
+                                <myControls:AppearanceSetting />
+                            </ContentPresenter.Content>
+                        </ContentPresenter>
+                    </TabItem>
+                    <TabItem Name="tiAbout" Header="About">
+                        
+                    </TabItem>
+                </TabControl>
+            </MahControls:Flyout>
+        </MahControls:FlyoutsControl>
+    </MahControls:MetroWindow.Flyouts>
 </MahControls:MetroWindow>

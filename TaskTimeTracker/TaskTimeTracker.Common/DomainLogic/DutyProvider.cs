@@ -108,14 +108,17 @@ namespace TaskTimeTracker.Common.DomainLogic
 
         private void FinishDuty(Duty duty)
         {
-            if (duty.Status != (int)DutyStatus.Completed)
+            if (duty != null)
             {
-                //lets close last time frame
-                DutyTimeFrame lastTimeFrame = duty.TimeFrames.Last();
+                if (duty.Status != (int)DutyStatus.Completed)
+                {
+                    //lets close last time frame
+                    DutyTimeFrame lastTimeFrame = duty.TimeFrames.Last();
 
-                lastTimeFrame.To = DateTime.Now;
+                    lastTimeFrame.To = DateTime.Now;
 
-                duty.Status = (int)DutyStatus.Completed;
+                    duty.Status = (int)DutyStatus.Completed;
+                }
             }
         }
 

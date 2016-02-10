@@ -26,7 +26,9 @@ namespace TaskTimeTracker.ViewModel
 
         private TimeSpan _Elapsed;
 
-        private string _ElapsedTime;    
+        private string _ElapsedTime;
+
+        private bool _IsSettingsOpen;
 
         #endregion
 
@@ -83,6 +85,20 @@ namespace TaskTimeTracker.ViewModel
             //}
         }
 
+        public bool IsSettingsOpen
+        {
+            get { return _IsSettingsOpen; }
+
+            set
+            {
+                if (_IsSettingsOpen != value)
+                {
+                    _IsSettingsOpen = value;
+                    NotifyPropertyChanged(() => this.IsSettingsOpen);
+                }
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -115,6 +131,11 @@ namespace TaskTimeTracker.ViewModel
 
             if (!_Timer.IsEnabled)
                 _Timer.Start();
+        }
+
+        private void OpenSettings()
+        {
+            IsSettingsOpen = true;
         }
 
         #endregion
@@ -165,6 +186,21 @@ namespace TaskTimeTracker.ViewModel
                 }
 
                 return _FinishDutyAndStartNewCommand;
+            }
+        }
+
+        RelayCommand _OpenSettingsCommand;
+
+        public RelayCommand OpenSettingsCommand
+        {
+            get
+            {
+                if(_OpenSettingsCommand == null)
+                {
+                    _OpenSettingsCommand = new RelayCommand((p) => OpenSettings());
+                }
+
+                return _OpenSettingsCommand;
             }
         }
 

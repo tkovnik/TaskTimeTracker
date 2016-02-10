@@ -22,7 +22,7 @@
                 </Rectangle.Fill>
             </Rectangle>
             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,3,2,2">
-                <TextBlock Name="tbDutyName" FontSize="11" FontWeight="DemiBold" Foreground="#3FB0E0" HorizontalAlignment="Center" Text="{Binding Name}"></TextBlock>
+                <TextBlock Name="tbDutyName" FontSize="11" FontWeight="DemiBold" Foreground="{DynamicResource AccentColorBrush}" HorizontalAlignment="Center" Text="{Binding Name}"></TextBlock>
                 <Border BorderThickness="0,1,0,0" BorderBrush="#E8EEF1"/>
                 <TextBlock FontSize="10" FontWeight="DemiBold" FontStyle="Italic" Text="{Binding Group.Name}"></TextBlock>
                 <TextBlock FontSize="8" VerticalAlignment="Stretch" Text="{Binding Keywords}"></TextBlock>
