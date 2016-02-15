@@ -32,11 +32,7 @@ namespace TaskTimeTracker.ViewModel
 
         public Dictionary<string, Color> Accents
         {
-            get
-            {
-                return _Accents;
-            }
-
+            get {return _Accents; }
             set
             {
                 if (_Accents != value)
@@ -49,11 +45,7 @@ namespace TaskTimeTracker.ViewModel
 
         public Dictionary<string, Color> Themes
         {
-            get
-            {
-                return _Themes;
-            }
-
+            get{ return _Themes; }
             set
             {
                 if (_Themes != value)
@@ -63,8 +55,6 @@ namespace TaskTimeTracker.ViewModel
                 }
             }
         }
-
-        
 
         public KeyValuePair<string, Color> SelectedAccent
         {

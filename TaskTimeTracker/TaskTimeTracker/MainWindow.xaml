@@ -106,14 +106,22 @@
                             </Grid>
                         </Grid>
                     </DockPanel>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">
-                        <Button Width="100" Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Command="{Binding StartNewDutyCommand}" BorderBrush="#BB4D4D" Background="#BB4D4D">Start New</Button>
-                        <Border BorderThickness="2,0,0,0" BorderBrush="#E8EEF1" Margin="5" />
-                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Margin="0,0,5,0" Command="{Binding FinishDutyAndStartNewCommand}" BorderBrush="#49BF4B" Background="#49BF4B">Finish and start new</Button>
-                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Command="{Binding FinishDutyAndUnpausePreviousCommand}" BorderBrush="#49BF4B" Background="#49BF4B">Finish and unpause previous</Button>
-                        <Border BorderThickness="2,0,0,0" BorderBrush="#E8EEF1" Margin="5" />
-                        <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" BorderBrush="#CFC739" Background="#CFC739">Pause current</Button>
-                    </StackPanel>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="190" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Column="0">
+                            <Button Width="100" Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Command="{Binding StartNewDutyCommand}" BorderBrush="#BB4D4D" Background="#BB4D4D">Start New</Button>
+                            <Border BorderThickness="2,0,0,0" BorderBrush="#E8EEF1" Margin="5" />
+                            <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Margin="0,0,5,0" Command="{Binding FinishDutyAndStartNewCommand}" BorderBrush="#49BF4B" Background="#49BF4B">Finish and start new</Button>
+                            <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Command="{Binding FinishDutyAndUnpausePreviousCommand}" BorderBrush="#49BF4B" Background="#49BF4B">Finish and unpause previous</Button>
+                            <Border BorderThickness="2,0,0,0" BorderBrush="#E8EEF1" Margin="5" />
+                            <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" BorderBrush="#CFC739" Background="#CFC739">Pause current</Button>
+                        </StackPanel>
+                        <Button Grid.Column="1" Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Background="#1EA170" BorderBrush="#1EA170" Margin="10,2,0,0" Command="{Binding FinishIteration}">End iteration</Button>
+                    </Grid>
+
                 </Grid>
             </TabItem>
 

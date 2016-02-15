@@ -33,6 +33,11 @@ namespace TaskTimeTracker.Common.DomainLogic
         public Iteration Iteration
         {
             get { return _Iteration; }
+            private set
+            {
+                _Iteration = value;
+                NotifyPropertyChanged("Iteration");
+            }
         }
 
         public Duty OngoingDuty
@@ -102,6 +107,18 @@ namespace TaskTimeTracker.Common.DomainLogic
                 duty.Status = (int)DutyStatus.Ongoing;
                 _OngoingDuty = duty;
             }
+        }
+
+        /// <summary>
+        /// Method finishes ongoing duty and finishes iteration (all duties are completed)
+        /// </summary>
+        public void FinishIteration()
+        {
+            FinishDuty(OngoingDuty);
+
+            //we have to prepaire provider for new iteration
+            Iteration = new Iteration();
+            OngoingDuty = null;
         }
 
         #endregion

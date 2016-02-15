@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Windows.Threading;
 using TaskTimeTracker.Command;
 using TaskTimeTracker.Common.DomainLogic;
 using TaskTimeTracker.Common.Model;
+using TaskTimeTracker.Storage;
 using TaskTimeTracker.ViewModel.Base;
 
 namespace TaskTimeTracker.ViewModel
@@ -29,6 +31,8 @@ namespace TaskTimeTracker.ViewModel
         private string _ElapsedTime;
 
         private bool _IsSettingsOpen;
+
+        private StorageResult _StorageResult;
 
         #endregion
 
@@ -99,6 +103,16 @@ namespace TaskTimeTracker.ViewModel
             }
         }
 
+        public StorageResult StorageResult
+        {
+            get { return _StorageResult; }
+            set
+            {
+                _StorageResult = value;
+                NotifyPropertyChanged(() => this.StorageResult);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -133,9 +147,30 @@ namespace TaskTimeTracker.ViewModel
                 _Timer.Start();
         }
 
+        private void ResetAndStopTimer()
+        {
+            ElapsedTime = new TimeSpan(0, 0, 0).ToString("hh\\:mm\\:ss");
+
+            _Timer.Stop();
+        }
+
         private void OpenSettings()
         {
             IsSettingsOpen = true;
+        }
+
+        private async void FinishIterationAndStoreIt()
+        {
+            _Provider.FinishIteration();
+
+            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations"));
+
+            //TODO: add proper factory infrastructure
+            LocalStorageProvider storage = new LocalStorageProvider();
+            StorageResult = await storage.StoreIteration(_Provider.Iteration, directory.FullName);
+
+            NotifyPropertyChanged(() => CurrentDuty);
+            ResetAndStopTimer();
         }
 
         #endregion
@@ -201,6 +236,21 @@ namespace TaskTimeTracker.ViewModel
                 }
 
                 return _OpenSettingsCommand;
+            }
+        }
+
+        RelayCommand _FinishIteration;
+
+        public RelayCommand FinishIteration
+        {
+            get
+            {
+                if(_FinishIteration == null)
+                {
+                    _FinishIteration = new RelayCommand((p) => FinishIterationAndStoreIt());
+                }
+
+                return _FinishIteration;
             }
         }
 
