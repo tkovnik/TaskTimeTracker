@@ -34,6 +34,8 @@ namespace TaskTimeTracker.ViewModel
 
         private StorageResult _StorageResult;
 
+        private ObservableCollection<DutyGroup> _AvailableGroups;
+
         #endregion
 
         #region Constructors
@@ -44,6 +46,8 @@ namespace TaskTimeTracker.ViewModel
             _Timer = new DispatcherTimer();
             _Timer.Interval = TimeSpan.FromSeconds(1);
             _Timer.Tick += TimerTick;
+
+            InitDummyGroups();
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -89,6 +93,17 @@ namespace TaskTimeTracker.ViewModel
             //}
         }
 
+        public DutyGroup CurrentDutyGroup
+        {
+            get
+            {
+                if(_Provider.OngoingDuty != null)
+                    return _Provider.OngoingDuty.Group;
+
+                return null;
+            }
+        }
+
         public bool IsSettingsOpen
         {
             get { return _IsSettingsOpen; }
@@ -113,6 +128,16 @@ namespace TaskTimeTracker.ViewModel
             }
         }
 
+        public ObservableCollection<DutyGroup> AvailableGroups
+        {
+            get{ return _AvailableGroups; }
+            set
+            {
+                _AvailableGroups = value;
+                NotifyPropertyChanged(() => AvailableGroups);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -121,6 +146,7 @@ namespace TaskTimeTracker.ViewModel
         {
             _Provider.StartNewDuty();
             NotifyPropertyChanged(() => this.CurrentDuty);
+            SetCurrentDutyGroup(new DutyGroup() { Name = "Add current group..." });
             SetAndStartTimer();
         }
 
@@ -161,7 +187,7 @@ namespace TaskTimeTracker.ViewModel
 
         private async void FinishIterationAndStoreIt()
         {
-            _Provider.FinishIteration();
+            _Provider.EndIteration();
 
             var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations"));
 
@@ -169,8 +195,32 @@ namespace TaskTimeTracker.ViewModel
             LocalStorageProvider storage = new LocalStorageProvider();
             StorageResult = await storage.StoreIteration(_Provider.Iteration, directory.FullName);
 
+            _Provider.StartNewIteration();
+
             NotifyPropertyChanged(() => CurrentDuty);
             ResetAndStopTimer();
+        }
+
+        private void AddNewDutyGroup(string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                AvailableGroups.Add(new DutyGroup() { Name = name });
+
+                //TODO: store here storage
+            }
+        }
+
+        private void SetCurrentDutyGroup(object dutyGroup)
+        {
+            DutyGroup dg = dutyGroup as DutyGroup;
+
+            if(dg != null && _Provider.OngoingDuty != null)
+            {
+                //Todo: maybe put this logic to provider;
+                _Provider.OngoingDuty.Group = dg;
+                NotifyPropertyChanged(() => CurrentDutyGroup);
+            }
         }
 
         #endregion
@@ -254,7 +304,53 @@ namespace TaskTimeTracker.ViewModel
             }
         }
 
+        RelayCommand _NewGroupCommand;
+
+        public RelayCommand NewGroupCommand
+        {   get
+            {
+                if(_NewGroupCommand == null)
+                {
+                    _NewGroupCommand = new RelayCommand((p) => AddNewDutyGroup(p != null ? p.ToString() : null));
+                }
+
+                return _NewGroupCommand;
+            }
+        }
+
+        RelayCommand _SetDutyGroupCommand;
+
+        public RelayCommand SetDutyGroupCommand
+        {
+            get
+            {
+                if(_SetDutyGroupCommand == null)
+                {
+                    _SetDutyGroupCommand = new RelayCommand((p) => SetCurrentDutyGroup(p));
+                }
+
+                return _SetDutyGroupCommand;
+            }
+        }
+
         #endregion
+
+        #endregion
+
+        #region Dummy data
+
+        private void InitDummyGroups()
+        {
+            if(_AvailableGroups == null)
+            {
+                AvailableGroups = new ObservableCollection<DutyGroup>();
+
+                AvailableGroups.Add(new DutyGroup() { Name = "Programiranje" });
+                AvailableGroups.Add(new DutyGroup() { Name = "Support" });
+                AvailableGroups.Add(new DutyGroup() { Name = "Malica" });
+
+            }
+        }
 
         #endregion
     }

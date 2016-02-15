@@ -19,7 +19,7 @@ namespace TaskTimeTracker.Storage
             {
                 string json = JsonConvert.SerializeObject(iteration);
 
-                string filename = string.Format("{0}.json", DateTime.Now.ToString("yyyy_MM_dd_hhmmss"));
+                string filename = string.Format("{0}.json", DateTime.Now.ToString("yyyy_MM_ddTHHmmss"));
 
                 string path = Path.Combine(uri, filename);
 

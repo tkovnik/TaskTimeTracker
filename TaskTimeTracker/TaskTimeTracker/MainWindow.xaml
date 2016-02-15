@@ -7,7 +7,7 @@
         xmlns:MahControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:myControls="clr-namespace:TaskTimeTracker.View.Controls"
         mc:Ignorable="d"
-        Title="Tasker" Height="650" Width="850" BorderBrush="#FF000019">
+        Title="Tasker" Height="650" Width="850" BorderBrush="#FF000019" Name="mainWindow">
     <MahControls:MetroWindow.RightWindowCommands>
         <MahControls:WindowCommands>
             <Button Content="Settings" Command="{Binding OpenSettingsCommand}"/>
@@ -50,28 +50,45 @@
                                         <RowDefinition Height="28" />
                                         <RowDefinition Height="1*" />
                                         <RowDefinition Height="28" />
-                                        <RowDefinition Height="100" />
+                                        <RowDefinition Height="115" />
                                         <RowDefinition Height="28" />
                                         <RowDefinition Height="100" />
                                     </Grid.RowDefinitions>
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}" >Task:</TextBlock>
                                     <TextBox Name="tbName" Margin="5" FontSize="16" Text="{Binding CurrentDuty.Name, Mode=TwoWay}" Grid.Row="1"/>
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="2" Foreground="{DynamicResource AccentColorBrush}">Description:</TextBlock>
-                                    <TextBox Name="tbDescription" Margin="5" FontSize="14" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="3" VerticalAlignment="Stretch" />
+                                    <TextBox Name="tbDescription" Margin="5" FontSize="14" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="3" VerticalAlignment="Stretch" Text="{Binding CurrentDuty.Description, Mode=TwoWay}" />
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="4" Foreground="{DynamicResource AccentColorBrush}">Group:</TextBlock>
                                     <GroupBox Grid.Row="5">
                                         <StackPanel>
-                                            <TextBox Name="tbTaskGroup" Margin="5" FontSize="14"></TextBox>
-                                            <WrapPanel Orientation="Horizontal" Margin="5,0,0,0">
-                                                <!--<WrapPanel.Resources>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Margin" Value="0,0,10,0" />
-                                            </Style>
-                                        </WrapPanel.Resources>-->
-                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Group 1</Button>
-                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Group 2</Button>
-                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Longer group 1</Button>
-                                            </WrapPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="180" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Padding="5,5,0,0" FontSize="20" Grid.Column="0" FontWeight="DemiBold" Text="{Binding CurrentDutyGroup.Name}" />
+                                                <TextBox Name="tbTaskGroup" Margin="5" FontSize="14" Grid.Column="1" AcceptsReturn="True">
+                                                    <TextBox.InputBindings>
+                                                        <KeyBinding Gesture="Enter"
+                                                                    Command="{Binding NewGroupCommand}"
+                                                                    CommandParameter="{Binding Text, ElementName=tbTaskGroup}">
+                                                        </KeyBinding>
+                                                    </TextBox.InputBindings>
+                                                </TextBox>
+                                            </Grid>
+                                            <TextBlock Text="AvailableGroups:" FontSize="10" Padding="5,0,0,0"></TextBlock>
+                                            <ListBox Name="lbAvailableGroups" ItemsSource="{Binding AvailableGroups}">
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Margin="0,0,0,0" />
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button Name="btnAddGroup" Content="{Binding Name}" Tag="{Binding}" Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" Margin="-5,0,-2,0" BorderBrush="Azure" Command="{Binding DataContext.SetDutyGroupCommand, ElementName=mainWindow}" CommandParameter="{Binding Tag, ElementName=btnAddGroup}" />
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
                                         </StackPanel>
                                     </GroupBox>
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="6" Foreground="{DynamicResource AccentColorBrush}">Keywords:</TextBlock>

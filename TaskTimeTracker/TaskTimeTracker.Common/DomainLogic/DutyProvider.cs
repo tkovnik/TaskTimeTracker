@@ -112,10 +112,14 @@ namespace TaskTimeTracker.Common.DomainLogic
         /// <summary>
         /// Method finishes ongoing duty and finishes iteration (all duties are completed)
         /// </summary>
-        public void FinishIteration()
+        public void EndIteration()
         {
             FinishDuty(OngoingDuty);
+        }
 
+
+        public void StartNewIteration()
+        {
             //we have to prepaire provider for new iteration
             Iteration = new Iteration();
             OngoingDuty = null;
