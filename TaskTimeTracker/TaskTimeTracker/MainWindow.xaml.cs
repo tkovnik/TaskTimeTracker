@@ -23,14 +23,12 @@ namespace TaskTimeTracker
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        Workspace workspace;
         public MainWindow()
         {
             InitializeComponent();
 
             //apply main view model
-            workspace = new Workspace();
-            this.DataContext = workspace;
+            this.DataContext = Workspace.This;
         }
     }
 }

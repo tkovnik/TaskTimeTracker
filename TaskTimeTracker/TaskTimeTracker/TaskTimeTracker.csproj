@@ -75,6 +75,7 @@
     <Compile Include="ViewModel\AppearanceSettingViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\Workspace.cs" />
+    <Compile Include="View\BindingProxy.cs" />
     <Compile Include="View\Controls\AppearanceSetting.xaml.cs">
       <DependentUpon>AppearanceSetting.xaml</DependentUpon>
     </Compile>

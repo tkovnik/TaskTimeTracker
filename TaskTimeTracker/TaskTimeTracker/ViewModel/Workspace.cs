@@ -58,6 +58,25 @@ namespace TaskTimeTracker.ViewModel
 
         #endregion
 
+        #region Static
+
+        private static Workspace _Workspace;
+
+        public static Workspace This
+        {
+            get
+            {
+                if(_Workspace == null)
+                {
+                    _Workspace = new Workspace();
+                }
+
+                return _Workspace;
+            }
+        }
+
+        #endregion
+
         #region Public Properties
 
         public DutyProvider Provider
@@ -147,6 +166,7 @@ namespace TaskTimeTracker.ViewModel
             _Provider.StartNewDuty();
             NotifyPropertyChanged(() => this.CurrentDuty);
             SetCurrentDutyGroup(new DutyGroup() { Name = "Add current group..." });
+            NotifyPropertyChanged(() => CurrentDutyGroup);
             SetAndStartTimer();
         }
 
@@ -154,6 +174,7 @@ namespace TaskTimeTracker.ViewModel
         {
             _Provider.FinishDutyAndUnpausePrevious();
             NotifyPropertyChanged(() => this.CurrentDuty);
+            NotifyPropertyChanged(() => CurrentDutyGroup);
             SetAndStartTimer();
         }
 
@@ -161,6 +182,7 @@ namespace TaskTimeTracker.ViewModel
         {
             _Provider.FinishDutyAndStartNew();
             NotifyPropertyChanged(() => this.CurrentDuty);
+            NotifyPropertyChanged(() => CurrentDutyGroup);
             SetAndStartTimer();
         }
 
@@ -198,6 +220,7 @@ namespace TaskTimeTracker.ViewModel
             _Provider.StartNewIteration();
 
             NotifyPropertyChanged(() => CurrentDuty);
+            NotifyPropertyChanged(() => CurrentDutyGroup);
             ResetAndStopTimer();
         }
 
@@ -220,6 +243,20 @@ namespace TaskTimeTracker.ViewModel
                 //Todo: maybe put this logic to provider;
                 _Provider.OngoingDuty.Group = dg;
                 NotifyPropertyChanged(() => CurrentDutyGroup);
+            }
+        }
+
+        private void UnpauseDuty(object duty)
+        {
+            Duty dut = duty as Duty;
+            if(dut != null && dut != CurrentDuty)
+            {
+                _Provider.UnpauseDuty(dut);
+
+                NotifyPropertyChanged(() => CurrentDuty);
+                NotifyPropertyChanged(() => CurrentDutyGroup);
+
+                SetAndStartTimer();
             }
         }
 
@@ -271,6 +308,21 @@ namespace TaskTimeTracker.ViewModel
                 }
 
                 return _FinishDutyAndStartNewCommand;
+            }
+        }
+
+        RelayCommand _UnpauseDutyCommand;
+
+        public RelayCommand UnpauseDutyCommand
+        {
+            get
+            {
+                if(_UnpauseDutyCommand == null)
+                {
+                    _UnpauseDutyCommand = new RelayCommand((p) => UnpauseDuty(p));
+                }
+
+                return _UnpauseDutyCommand;
             }
         }
 

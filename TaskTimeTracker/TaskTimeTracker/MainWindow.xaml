@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:TaskTimeTracker"
         xmlns:MahControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:myControls="clr-namespace:TaskTimeTracker.View.Controls"
+        xmlns:view="clr-namespace:TaskTimeTracker.View"
         mc:Ignorable="d"
         Title="Tasker" Height="650" Width="850" BorderBrush="#FF000019" Name="mainWindow">
     <MahControls:MetroWindow.RightWindowCommands>
@@ -114,9 +115,28 @@
                             <Grid Grid.Column="1" Grid.Row="0">
                                 <ListView Name="lvDuties" ItemsSource="{Binding Provider.Iteration.Duties}"
                                           ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="#E8EEF1" BorderThickness="3,0,0,0">
+                                    <ListView.Resources>
+                                        <view:BindingProxy x:Key="bindProxy" Data="{Binding}" />
+                                    </ListView.Resources>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="ContextMenu">
+                                                <Setter.Value>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="Unpause" Command="{Binding Data.UnpauseDutyCommand, Source={StaticResource bindProxy}}" CommandParameter="{Binding}" />
+                                                    </ContextMenu>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <!--<EventSetter Event="MouseDoubleClick" Handler="{Binding Data.UnpauseDutyCommand, Source={StaticResource bindProxy}}" />-->
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <myControls:DutyListItem Margin="0,0,0,5" />
+                                            <myControls:DutyListItem Margin="0,0,0,5" >
+                                                <myControls:DutyListItem.InputBindings>
+                                                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Data.UnpauseDutyCommand, Source={StaticResource bindProxy}}" CommandParameter="{Binding}" />
+                                                </myControls:DutyListItem.InputBindings>
+                                            </myControls:DutyListItem>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
