@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -47,7 +48,7 @@ namespace TaskTimeTracker.ViewModel
             _Timer.Interval = TimeSpan.FromSeconds(1);
             _Timer.Tick += TimerTick;
 
-            InitDummyGroups();
+            LoadDutyGroups();
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -230,7 +231,7 @@ namespace TaskTimeTracker.ViewModel
             {
                 AvailableGroups.Add(new DutyGroup() { Name = name });
 
-                //TODO: store here storage
+                SyncDutyGroups();
             }
         }
 
@@ -259,6 +260,9 @@ namespace TaskTimeTracker.ViewModel
                 SetAndStartTimer();
             }
         }
+
+
+
 
         #endregion
 
@@ -386,6 +390,48 @@ namespace TaskTimeTracker.ViewModel
         }
 
         #endregion
+
+        #endregion
+
+        #region Storage Methods
+
+        private async void SyncDutyGroups()
+        {
+            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+
+            //TODO: add proper factory infrastructure
+            LocalStorageProvider storage = new LocalStorageProvider();
+
+            StorageResult = await storage.StoreGroups(AvailableGroups.ToList(), directory.FullName);
+        }
+
+        private async void LoadDutyGroups()
+        {
+            LocalStorageProvider storage = new LocalStorageProvider();
+
+            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+
+            StorageResult = await storage.LoadGroups(directory.FullName);
+
+            if(StorageResult.Result != null)
+            {
+                string json = (string)StorageResult.Result;
+
+                List<DutyGroup> lst = JsonConvert.DeserializeObject<List<DutyGroup>>(json);
+                if(lst != null && lst.Count > 0)
+                {
+                    AvailableGroups = new ObservableCollection<DutyGroup>(lst);
+                }
+                else
+                {
+                    InitDummyGroups();
+                }
+            }
+            else
+            {
+                InitDummyGroups();
+            }
+        }
 
         #endregion
 

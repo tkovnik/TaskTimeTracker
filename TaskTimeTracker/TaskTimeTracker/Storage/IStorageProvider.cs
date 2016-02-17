@@ -15,5 +15,7 @@ namespace TaskTimeTracker.Storage
     public interface IStorageProvider
     {
         Task<StorageResult> StoreIteration(Iteration iteration, string uri);
+        Task<StorageResult> StoreGroups(List<DutyGroup> groups, string uri);
+        Task<StorageResult> LoadGroups(string uri);
     }
 }

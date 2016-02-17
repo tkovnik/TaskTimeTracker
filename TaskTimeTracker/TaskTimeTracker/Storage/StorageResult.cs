@@ -10,6 +10,7 @@ namespace TaskTimeTracker.Storage
     {
         public StorageStatus Status { get; set; }
         public string Message { get; set; }
+        public object Result { get; set; }
     }
 
     public enum StorageStatus
