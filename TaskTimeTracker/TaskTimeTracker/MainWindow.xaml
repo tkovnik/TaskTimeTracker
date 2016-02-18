@@ -53,7 +53,7 @@
                                         <RowDefinition Height="28" />
                                         <RowDefinition Height="115" />
                                         <RowDefinition Height="28" />
-                                        <RowDefinition Height="100" />
+                                        <RowDefinition Height="115" />
                                     </Grid.RowDefinitions>
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}" >Task:</TextBlock>
                                     <TextBox Name="tbName" Margin="5" FontSize="16" Text="{Binding CurrentDuty.Name, Mode=TwoWay}" Grid.Row="1"/>
@@ -95,17 +95,23 @@
                                     <TextBlock Padding="5,5,0,0" FontSize="16" FontWeight="DemiBold" Grid.Row="6" Foreground="{DynamicResource AccentColorBrush}">Keywords:</TextBlock>
                                     <GroupBox VerticalAlignment="Stretch" Grid.Row="7">
                                         <StackPanel>
-                                            <TextBox Name="tbKeywords" Margin="5" FontSize="14" Text="{Binding CurrentDuty.Keywords, Mode=TwoWay}"></TextBox>
-                                            <WrapPanel Orientation="Horizontal" Margin="5,0,0,0">
-                                                <!--<WrapPanel.Resources>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Margin" Value="0,0,10,0" />
-                                            </Style>
-                                        </WrapPanel.Resources>-->
-                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Keyword 1</Button>
-                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Keyword 2</Button>
-                                                <Button Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" BorderBrush="Azure" Margin="0,0,5,0">Keyword 3</Button>
-                                            </WrapPanel>
+                                            <TextBox Name="tbKeywords" Margin="5" FontSize="14" Text="{Binding CurrentDuty.Keywords, Mode=TwoWay}">
+                                                <TextBox.InputBindings>
+                                                    <KeyBinding Key="OemComma" Command="{Binding AddKeywordToListCommand}" CommandParameter="{Binding Text, ElementName=tbKeywords}" />
+                                                </TextBox.InputBindings>
+                                            </TextBox>
+                                            <ListBox Name="lbAvailableKeywords" ItemsSource="{Binding AvailableKeywords}">
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Margin="0,0,0,0" />
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button Name="btnAddKeyword" Content="{Binding}" Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="14" Margin="-5,0,-2,0" BorderBrush="Azure" Command="{Binding DataContext.AddKeywordCommand, ElementName=mainWindow}" CommandParameter="{Binding Content, ElementName=btnAddKeyword}" />
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
                                             <TextBlock HorizontalAlignment="Center" FontWeight="Medium">More..</TextBlock>
                                         </StackPanel>
                                     </GroupBox>

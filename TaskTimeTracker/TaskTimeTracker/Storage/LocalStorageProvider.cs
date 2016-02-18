@@ -96,5 +96,31 @@ namespace TaskTimeTracker.Storage
 
             return result;
         }
+
+        public async Task<StorageResult> LoadKeywords(string uri)
+        {
+            StorageResult result = new StorageResult();
+
+            try
+            {
+                string filename = string.Format("{0}.txt", "AvailableKeywords");
+
+                string path = Path.Combine(uri, filename);
+
+                string txt = await Task<string>.Run(() => File.ReadAllText(path));
+
+                result.Result = txt;
+                result.Status = StorageStatus.Success;
+                //TODO: put string in resource file
+                result.Message = string.Format("Keywords were successfully loaded.");
+            }
+            catch (Exception ex)
+            {
+                result.Status = StorageStatus.Error;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
     }
 }

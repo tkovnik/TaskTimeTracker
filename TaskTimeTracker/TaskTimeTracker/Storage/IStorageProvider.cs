@@ -17,5 +17,6 @@ namespace TaskTimeTracker.Storage
         Task<StorageResult> StoreIteration(Iteration iteration, string uri);
         Task<StorageResult> StoreGroups(List<DutyGroup> groups, string uri);
         Task<StorageResult> LoadGroups(string uri);
+        Task<StorageResult> LoadKeywords(string uri);
     }
 }

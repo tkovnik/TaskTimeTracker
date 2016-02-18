@@ -37,6 +37,8 @@ namespace TaskTimeTracker.ViewModel
 
         private ObservableCollection<DutyGroup> _AvailableGroups;
 
+        private ObservableCollection<string> _AvailableKeywords;
+
         #endregion
 
         #region Constructors
@@ -48,7 +50,11 @@ namespace TaskTimeTracker.ViewModel
             _Timer.Interval = TimeSpan.FromSeconds(1);
             _Timer.Tick += TimerTick;
 
+            _AvailableGroups = new ObservableCollection<DutyGroup>();
+            _AvailableKeywords = new ObservableCollection<string>();
+
             LoadDutyGroups();
+            LoadKeywords();
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -86,7 +92,7 @@ namespace TaskTimeTracker.ViewModel
             private set
             {
                 _Provider = value;
-                NotifyPropertyChanged(() => this.Provider);
+                NotifyPropertyChanged(() => Provider);
             }
         }
 
@@ -96,7 +102,7 @@ namespace TaskTimeTracker.ViewModel
             set
             {
                 _ElapsedTime = value;
-                NotifyPropertyChanged(() => this.ElapsedTime);
+                NotifyPropertyChanged(() => ElapsedTime);
             }
         }
 
@@ -133,7 +139,7 @@ namespace TaskTimeTracker.ViewModel
                 if (_IsSettingsOpen != value)
                 {
                     _IsSettingsOpen = value;
-                    NotifyPropertyChanged(() => this.IsSettingsOpen);
+                    NotifyPropertyChanged(() => IsSettingsOpen);
                 }
             }
         }
@@ -144,7 +150,7 @@ namespace TaskTimeTracker.ViewModel
             set
             {
                 _StorageResult = value;
-                NotifyPropertyChanged(() => this.StorageResult);
+                NotifyPropertyChanged(() => StorageResult);
             }
         }
 
@@ -155,6 +161,16 @@ namespace TaskTimeTracker.ViewModel
             {
                 _AvailableGroups = value;
                 NotifyPropertyChanged(() => AvailableGroups);
+            }
+        }
+
+        public ObservableCollection<string> AvailableKeywords
+        {
+            get { return _AvailableKeywords; }
+            set
+            {
+                _AvailableKeywords = value;
+                NotifyPropertyChanged(() => AvailableKeywords);
             }
         }
 
@@ -185,6 +201,20 @@ namespace TaskTimeTracker.ViewModel
             NotifyPropertyChanged(() => this.CurrentDuty);
             NotifyPropertyChanged(() => CurrentDutyGroup);
             SetAndStartTimer();
+        }
+
+        private void UnpauseDuty(object duty)
+        {
+            Duty dut = duty as Duty;
+            if (dut != null && dut != CurrentDuty)
+            {
+                _Provider.UnpauseDuty(dut);
+
+                NotifyPropertyChanged(() => CurrentDuty);
+                NotifyPropertyChanged(() => CurrentDutyGroup);
+
+                SetAndStartTimer();
+            }
         }
 
         private void SetAndStartTimer()
@@ -247,21 +277,51 @@ namespace TaskTimeTracker.ViewModel
             }
         }
 
-        private void UnpauseDuty(object duty)
+
+
+        private void AddKeyword(object keyword)
         {
-            Duty dut = duty as Duty;
-            if(dut != null && dut != CurrentDuty)
+            if(CurrentDuty != null && keyword != null)
             {
-                _Provider.UnpauseDuty(dut);
+                if(string.IsNullOrEmpty(CurrentDuty.Keywords))
+                {
+                    CurrentDuty.Keywords = keyword.ToString();
+                }
+                else
+                {
+                    string val = keyword.ToString();
 
-                NotifyPropertyChanged(() => CurrentDuty);
-                NotifyPropertyChanged(() => CurrentDutyGroup);
-
-                SetAndStartTimer();
+                    if (!CurrentDuty.Keywords.Contains(val))
+                    {
+                        if(CurrentDuty.Keywords[CurrentDuty.Keywords.Length -1] == ',')
+                        {
+                            CurrentDuty.Keywords += val;
+                        }
+                        else
+                            CurrentDuty.Keywords += string.Format(",{0}", val);
+                    }
+                }
             }
         }
 
+        private void AddLastKeywordToList(object val)
+        {
+            if (val != null)
+            {
+                string[] tmp = val.ToString().Split(',');
+                if (tmp.Length > 0)
+                {
+                    string kwd = tmp[tmp.Length - 1].Trim();
+                    if (!_AvailableKeywords.Any(a => a.Equals(kwd, StringComparison.InvariantCultureIgnoreCase)))
+                    {
+                        AvailableKeywords.Add(kwd);
+                    }
+                }
 
+                if(CurrentDuty != null)
+                    CurrentDuty.Keywords = val + ",";
+            }
+        }
 
 
         #endregion
@@ -389,6 +449,37 @@ namespace TaskTimeTracker.ViewModel
             }
         }
 
+        RelayCommand _AddKeywordCommand;
+
+        public RelayCommand AddKeywordCommand
+        {
+            get
+            {
+                if(_AddKeywordCommand == null)
+                {
+                    _AddKeywordCommand = new RelayCommand((p) => AddKeyword(p));
+                }
+
+                return _AddKeywordCommand;
+            }
+        }
+
+        RelayCommand _AddKeywordToListCommand;
+
+        public RelayCommand AddKeywordToListCommand
+        {
+            get
+            {
+                if(_AddKeywordToListCommand == null)
+                {
+                    _AddKeywordToListCommand = new RelayCommand((p) => AddLastKeywordToList(p));
+                }
+
+                return _AddKeywordToListCommand;
+            }
+        }
+
+
         #endregion
 
         #endregion
@@ -430,6 +521,27 @@ namespace TaskTimeTracker.ViewModel
             else
             {
                 InitDummyGroups();
+            }
+        }
+
+        private async void LoadKeywords()
+        {
+            LocalStorageProvider storage = new LocalStorageProvider();
+
+            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+
+            StorageResult = await storage.LoadKeywords(directory.FullName);
+
+            if(StorageResult.Result != null)
+            {
+                string val = StorageResult.Result.ToString();
+                ObservableCollection<string> col = new ObservableCollection<string>();
+                string[] tmp = val.Split(',');
+
+                foreach (string kword in tmp)
+                    col.Add(kword.Trim());
+
+                AvailableKeywords = col;
             }
         }
 
