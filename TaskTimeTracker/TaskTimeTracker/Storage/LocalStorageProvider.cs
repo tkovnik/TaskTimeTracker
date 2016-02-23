@@ -122,5 +122,87 @@ namespace TaskTimeTracker.Storage
 
             return result;
         }
+
+        public async Task<StorageResult> StoreTempIteration(string json, string uri)
+        {
+            StorageResult result = new StorageResult();
+
+            try
+            {
+                string filename = string.Format("{0}.json", "IterationTemp");
+
+                string path = Path.Combine(uri, filename);
+
+                using (StreamWriter file = File.CreateText(path))
+                {
+                    await file.WriteAsync(json);
+                }
+
+                result.Status = StorageStatus.Success;
+                //TODO: put string in resource file
+                result.Message = string.Format("Temp iteration was saved.");
+            }
+            catch (Exception ex)
+            {
+                result.Status = StorageStatus.Error;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
+
+        public async Task<StorageResult> LoadTempIteration(string uri)
+        {
+            StorageResult result = new StorageResult();
+
+            try
+            {
+                string filename = string.Format("{0}.json", "IterationTemp");
+
+                string path = Path.Combine(uri, filename);
+
+                if (File.Exists(path))
+                {
+
+                    string txt = await Task<string>.Run(() => File.ReadAllText(path));
+
+                    result.Result = txt;
+                    result.Status = StorageStatus.Success;
+                    //TODO: put string in resource file
+                    result.Message = string.Format("Temp iteration was loaded.");
+                }
+                else
+                {
+                    result.Result = null;
+                    result.Status = StorageStatus.Success;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Status = StorageStatus.Error;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
+
+        public async Task<StorageResult> DeleteTempIteration(string uri)
+        {
+            StorageResult result = new StorageResult();
+
+            string filename = string.Format("{0}.json", "IterationTemp");
+
+            string path = Path.Combine(uri, filename);
+
+            if (File.Exists(path))
+            {
+                await Task.Run(() => File.Delete(path));
+
+                result.Message = "Temp Iteration File deleted";
+                result.Status = StorageStatus.Success;
+            }
+
+            return result;
+        }
     }
 }

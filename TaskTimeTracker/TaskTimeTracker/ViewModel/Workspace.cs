@@ -39,6 +39,10 @@ namespace TaskTimeTracker.ViewModel
 
         private ObservableCollection<string> _AvailableKeywords;
 
+        bool _LoadedFromTemp;
+
+        private string _PrettyIterationPrint;
+
         #endregion
 
         #region Constructors
@@ -55,6 +59,17 @@ namespace TaskTimeTracker.ViewModel
 
             LoadDutyGroups();
             LoadKeywords();
+            LoadTempIteration();
+
+            PropertyChanged += Workspace_PropertyChanged;
+        }
+
+        private void Workspace_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == "CurrentDuty")
+            {
+                StoreTempIteration();
+            }
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -174,9 +189,69 @@ namespace TaskTimeTracker.ViewModel
             }
         }
 
+        public string PrettyIterationPrint
+        {
+            get { return _PrettyIterationPrint; }
+            set
+            {
+                _PrettyIterationPrint = value;
+                NotifyPropertyChanged(() => PrettyIterationPrint);
+            }
+        }
+
         #endregion
 
         #region Private Methods
+
+        private void SetPrettyIterationPrint()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (Duty duty in Provider.Iteration.Duties)
+            {
+                var startTime = duty.TimeFrames.First();
+                var endTime = duty.TimeFrames.Last();
+
+                sb.AppendLine(string.Format("{0} - {1}    {2}; {3}", startTime.From.ToString("hh\\:mm"), endTime.To.Value.ToString("hh\\:mm"), duty.Name, duty.Description));
+            }
+
+            PrettyIterationPrint = sb.ToString();
+        }
+
+        private async void LoadTempIteration()
+        {
+            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+
+            LocalStorageProvider provider = new LocalStorageProvider();
+            StorageResult result = await provider.LoadTempIteration(directory.FullName);
+
+            if (result.Result != null)
+            {
+                Iteration iteration = JsonConvert.DeserializeObject<Iteration>((string)result.Result);
+
+                if (iteration != null && iteration.Duties != null && iteration.Duties.Count > 0)
+                {
+                    Provider.SetIteration(iteration);
+                    NotifyPropertyChanged(() => this.CurrentDuty);
+                    NotifyPropertyChanged(() => CurrentDutyGroup);
+
+                    _LoadedFromTemp = true;
+
+                    SetAndStartTimer();
+                }
+            }
+        }
+
+        private async void StoreTempIteration()
+        {
+            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+
+            LocalStorageProvider provider = new LocalStorageProvider();
+
+            string json = JsonConvert.SerializeObject(Provider.Iteration);
+
+            StorageResult result = await provider.StoreTempIteration(json, directory.FullName);
+        }
 
         private void StartNewDuty()
         {
@@ -220,6 +295,14 @@ namespace TaskTimeTracker.ViewModel
         private void SetAndStartTimer()
         {
             _Elapsed = CurrentDuty.TotalTimeSpent;
+            if (_LoadedFromTemp)
+            {
+                DutyTimeFrame lastFrame = CurrentDuty.TimeFrames.Last();
+
+                _Elapsed = DateTime.Now - lastFrame.From;
+                _LoadedFromTemp = false;
+            }
+            
             ElapsedTime = CurrentDuty.TotalTimeSpent.ToString("hh\\:mm\\:ss");
 
             if (!_Timer.IsEnabled)
@@ -242,6 +325,8 @@ namespace TaskTimeTracker.ViewModel
         {
             _Provider.EndIteration();
 
+            SetPrettyIterationPrint();
+
             var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations"));
 
             //TODO: add proper factory infrastructure
@@ -253,6 +338,9 @@ namespace TaskTimeTracker.ViewModel
             NotifyPropertyChanged(() => CurrentDuty);
             NotifyPropertyChanged(() => CurrentDutyGroup);
             ResetAndStopTimer();
+
+            var directoryTemp = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+            await storage.DeleteTempIteration(directoryTemp.FullName);
         }
 
         private void AddNewDutyGroup(string name)
@@ -478,7 +566,6 @@ namespace TaskTimeTracker.ViewModel
                 return _AddKeywordToListCommand;
             }
         }
-
 
         #endregion
 

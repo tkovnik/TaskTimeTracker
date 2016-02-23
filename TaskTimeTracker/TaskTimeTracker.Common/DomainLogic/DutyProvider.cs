@@ -125,6 +125,13 @@ namespace TaskTimeTracker.Common.DomainLogic
             OngoingDuty = null;
         }
 
+        public void SetIteration(Iteration iteration)
+        {
+            Iteration = iteration;
+
+            OngoingDuty = iteration.Duties.FirstOrDefault(a => a.Status == (int)DutyStatus.Ongoing);
+        }
+
         #endregion
 
         private void FinishDuty(Duty duty)

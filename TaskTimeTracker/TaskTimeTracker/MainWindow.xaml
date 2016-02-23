@@ -169,7 +169,9 @@
             </TabItem>
 
             <TabItem Name="tiStatistics" Header="Statistics" BorderBrush="#E8EEF1" BorderThickness="0, 0, 2, 0">
-                
+                <StackPanel Orientation="Vertical">
+                    <TextBox Name="tpTemp" Margin="5" FontSize="14" Height="300" TextWrapping="Wrap" VerticalAlignment="Stretch" Text="{Binding PrettyIterationPrint}" />
+                </StackPanel>
             </TabItem>
 
             <TabItem Name="tiTest" Header="Header 3">
