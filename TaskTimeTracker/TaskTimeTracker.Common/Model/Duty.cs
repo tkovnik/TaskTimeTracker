@@ -32,19 +32,6 @@ namespace TaskTimeTracker.Common.Model
         public Duty(string name)
         {
             _TimeFrames = new List<DutyTimeFrame>();
-
-            //should we set here status of duty or let the business logic take care of this?
-            //_Status = (int)DutyStatus.Ongoing;
-
-            //Adding the first timeframe
-            DutyTimeFrame ttf = new DutyTimeFrame();
-            _TimeFrames.Add(ttf);
-
-            //setting default name if it's not provided
-            if (string.IsNullOrWhiteSpace(name))
-                Name = string.Format("{0}: {1}", Lang.TaskName_Default, ttf.ToString());
-            else
-                Name = name;
         }
 
         #endregion

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskTimeTracker.Common.Model;
+using TaskTimeTracker.Common.Translation;
 
 namespace TaskTimeTracker.Common.DomainLogic
 {
@@ -67,6 +68,13 @@ namespace TaskTimeTracker.Common.DomainLogic
             PauseCurrentDuty();
 
             Duty duty = new Duty();
+
+            //first timeframe
+            DutyTimeFrame ttf = new DutyTimeFrame();
+            duty.TimeFrames.Add(ttf);
+
+            duty.Name = string.Format("{0}: {1}", Lang.TaskName_Default, ttf.ToString());
+
             duty.Status = (int)DutyStatus.Ongoing;
 
             _Iteration.Duties.Add(duty);

@@ -66,7 +66,7 @@ namespace TaskTimeTracker.ViewModel
 
         private void Workspace_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == "CurrentDuty")
+            if (e.PropertyName == "CurrentDuty")
             {
                 StoreTempIteration();
             }
@@ -88,7 +88,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_Workspace == null)
+                if (_Workspace == null)
                 {
                     _Workspace = new Workspace();
                 }
@@ -138,7 +138,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_Provider.OngoingDuty != null)
+                if (_Provider.OngoingDuty != null)
                     return _Provider.OngoingDuty.Group;
 
                 return null;
@@ -171,7 +171,7 @@ namespace TaskTimeTracker.ViewModel
 
         public ObservableCollection<DutyGroup> AvailableGroups
         {
-            get{ return _AvailableGroups; }
+            get { return _AvailableGroups; }
             set
             {
                 _AvailableGroups = value;
@@ -212,7 +212,7 @@ namespace TaskTimeTracker.ViewModel
                 var startTime = duty.TimeFrames.First();
                 var endTime = duty.TimeFrames.Last();
 
-                sb.AppendLine(string.Format("{0} - {1}    {2}; {3}", startTime.From.ToString("hh\\:mm"), endTime.To.Value.ToString("hh\\:mm"), duty.Name, duty.Description));
+                sb.AppendLine(string.Format("{0} - {1}    {2}; {3}", startTime.From.ToString("HH\\:mm"), endTime.To.Value.ToString("HH\\:mm"), duty.Name, duty.Description));
             }
 
             PrettyIterationPrint = sb.ToString();
@@ -232,7 +232,7 @@ namespace TaskTimeTracker.ViewModel
                 if (iteration != null && iteration.Duties != null && iteration.Duties.Count > 0)
                 {
                     Provider.SetIteration(iteration);
-                    NotifyPropertyChanged(() => this.CurrentDuty);
+                    NotifyPropertyChanged(() => CurrentDuty);
                     NotifyPropertyChanged(() => CurrentDutyGroup);
 
                     _LoadedFromTemp = true;
@@ -302,7 +302,7 @@ namespace TaskTimeTracker.ViewModel
                 _Elapsed = DateTime.Now - lastFrame.From;
                 _LoadedFromTemp = false;
             }
-            
+
             ElapsedTime = CurrentDuty.TotalTimeSpent.ToString("hh\\:mm\\:ss");
 
             if (!_Timer.IsEnabled)
@@ -357,7 +357,7 @@ namespace TaskTimeTracker.ViewModel
         {
             DutyGroup dg = dutyGroup as DutyGroup;
 
-            if(dg != null && _Provider.OngoingDuty != null)
+            if (dg != null && _Provider.OngoingDuty != null)
             {
                 //Todo: maybe put this logic to provider;
                 _Provider.OngoingDuty.Group = dg;
@@ -369,9 +369,9 @@ namespace TaskTimeTracker.ViewModel
 
         private void AddKeyword(object keyword)
         {
-            if(CurrentDuty != null && keyword != null)
+            if (CurrentDuty != null && keyword != null)
             {
-                if(string.IsNullOrEmpty(CurrentDuty.Keywords))
+                if (string.IsNullOrEmpty(CurrentDuty.Keywords))
                 {
                     CurrentDuty.Keywords = keyword.ToString();
                 }
@@ -381,7 +381,7 @@ namespace TaskTimeTracker.ViewModel
 
                     if (!CurrentDuty.Keywords.Contains(val))
                     {
-                        if(CurrentDuty.Keywords[CurrentDuty.Keywords.Length -1] == ',')
+                        if (CurrentDuty.Keywords[CurrentDuty.Keywords.Length - 1] == ',')
                         {
                             CurrentDuty.Keywords += val;
                         }
@@ -406,7 +406,7 @@ namespace TaskTimeTracker.ViewModel
                     }
                 }
 
-                if(CurrentDuty != null)
+                if (CurrentDuty != null)
                     CurrentDuty.Keywords = val + ",";
             }
         }
@@ -424,7 +424,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_StartNewDutyCommand == null)
+                if (_StartNewDutyCommand == null)
                 {
                     _StartNewDutyCommand = new RelayCommand((p) => StartNewDuty());
                 }
@@ -439,7 +439,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_FinishDutyAndUnpausePreviousCommand == null)
+                if (_FinishDutyAndUnpausePreviousCommand == null)
                 {
                     _FinishDutyAndUnpausePreviousCommand = new RelayCommand((p) => FinishDutyAndUnpausePrevious());
                 }
@@ -454,7 +454,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_FinishDutyAndStartNewCommand == null)
+                if (_FinishDutyAndStartNewCommand == null)
                 {
                     _FinishDutyAndStartNewCommand = new RelayCommand((p) => FinishDutyAndStartNew());
                 }
@@ -469,7 +469,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_UnpauseDutyCommand == null)
+                if (_UnpauseDutyCommand == null)
                 {
                     _UnpauseDutyCommand = new RelayCommand((p) => UnpauseDuty(p));
                 }
@@ -484,7 +484,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_OpenSettingsCommand == null)
+                if (_OpenSettingsCommand == null)
                 {
                     _OpenSettingsCommand = new RelayCommand((p) => OpenSettings());
                 }
@@ -499,7 +499,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_FinishIteration == null)
+                if (_FinishIteration == null)
                 {
                     _FinishIteration = new RelayCommand((p) => FinishIterationAndStoreIt());
                 }
@@ -511,9 +511,9 @@ namespace TaskTimeTracker.ViewModel
         RelayCommand _NewGroupCommand;
 
         public RelayCommand NewGroupCommand
-        {   get
+        { get
             {
-                if(_NewGroupCommand == null)
+                if (_NewGroupCommand == null)
                 {
                     _NewGroupCommand = new RelayCommand((p) => AddNewDutyGroup(p != null ? p.ToString() : null));
                 }
@@ -528,7 +528,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_SetDutyGroupCommand == null)
+                if (_SetDutyGroupCommand == null)
                 {
                     _SetDutyGroupCommand = new RelayCommand((p) => SetCurrentDutyGroup(p));
                 }
@@ -543,7 +543,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_AddKeywordCommand == null)
+                if (_AddKeywordCommand == null)
                 {
                     _AddKeywordCommand = new RelayCommand((p) => AddKeyword(p));
                 }
@@ -558,7 +558,7 @@ namespace TaskTimeTracker.ViewModel
         {
             get
             {
-                if(_AddKeywordToListCommand == null)
+                if (_AddKeywordToListCommand == null)
                 {
                     _AddKeywordToListCommand = new RelayCommand((p) => AddLastKeywordToList(p));
                 }
@@ -591,12 +591,12 @@ namespace TaskTimeTracker.ViewModel
 
             StorageResult = await storage.LoadGroups(directory.FullName);
 
-            if(StorageResult.Result != null)
+            if (StorageResult.Result != null)
             {
                 string json = (string)StorageResult.Result;
 
                 List<DutyGroup> lst = JsonConvert.DeserializeObject<List<DutyGroup>>(json);
-                if(lst != null && lst.Count > 0)
+                if (lst != null && lst.Count > 0)
                 {
                     AvailableGroups = new ObservableCollection<DutyGroup>(lst);
                 }
@@ -619,7 +619,7 @@ namespace TaskTimeTracker.ViewModel
 
             StorageResult = await storage.LoadKeywords(directory.FullName);
 
-            if(StorageResult.Result != null)
+            if (StorageResult.Result != null)
             {
                 string val = StorageResult.Result.ToString();
                 ObservableCollection<string> col = new ObservableCollection<string>();
@@ -638,7 +638,7 @@ namespace TaskTimeTracker.ViewModel
 
         private void InitDummyGroups()
         {
-            if(_AvailableGroups == null)
+            if (_AvailableGroups == null)
             {
                 AvailableGroups = new ObservableCollection<DutyGroup>();
 

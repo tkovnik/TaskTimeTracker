@@ -175,7 +175,11 @@
             </TabItem>
 
             <TabItem Name="tiTest" Header="Header 3">
-
+                <ContentPresenter>
+                    <ContentPresenter.Content>
+                        <view:StatisticsView />
+                    </ContentPresenter.Content>
+                </ContentPresenter>
             </TabItem>
 
         </TabControl>
