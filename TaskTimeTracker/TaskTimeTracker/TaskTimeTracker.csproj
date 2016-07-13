@@ -49,6 +49,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -73,19 +75,30 @@
     </ApplicationDefinition>
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Converters\DutyStatusColorConverter.cs" />
+    <Compile Include="Model\BrowsedIteration.cs" />
     <Compile Include="Storage\IStorageProvider.cs" />
     <Compile Include="Storage\LocalStorageProvider.cs" />
     <Compile Include="Storage\StorageResult.cs" />
     <Compile Include="ViewModel\AppearanceSettingViewModel.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
+    <Compile Include="ViewModel\IterationBrowserViewModel.cs" />
     <Compile Include="ViewModel\StatisticsViewModel.cs" />
     <Compile Include="ViewModel\Workspace.cs" />
     <Compile Include="View\BindingProxy.cs" />
     <Compile Include="View\Controls\AppearanceSetting.xaml.cs">
       <DependentUpon>AppearanceSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Controls\BrowsedIterationItem.xaml.cs">
+      <DependentUpon>BrowsedIterationItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Controls\DutyItem.xaml.cs">
+      <DependentUpon>DutyItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\DutyListItem.xaml.cs">
       <DependentUpon>DutyListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\IterationBrowserView.xaml.cs">
+      <DependentUpon>IterationBrowserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StatisticsView.xaml.cs">
       <DependentUpon>StatisticsView.xaml</DependentUpon>
@@ -106,7 +119,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Controls\BrowsedIterationItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\DutyItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\DutyListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\IterationBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,6 +157,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config">
       <SubType>Designer</SubType>

@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="TaskTimeTracker.View.IterationBrowserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TaskTimeTracker.View"
+             xmlns:myControls="clr-namespace:TaskTimeTracker.View.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0">
+                <Button Content="Load iterations" Style="{DynamicResource AccentedSquareButtonStyle}" BorderThickness="0" Click="LoadIterations"/>
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ListView Name="lvIterations" Grid.Column="0" ItemsSource="{Binding BrowsedIterations}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <myControls:BrowsedIterationItem />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Grid Name="grdIteration" Grid.Column="1" Background="Bisque">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="5*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0">Duties</TextBlock>
+                        <Grid Grid.Row="1" Background="BurlyWood">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Details</TextBlock>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+            
+        </Grid>    
+    </Grid>
+</UserControl>

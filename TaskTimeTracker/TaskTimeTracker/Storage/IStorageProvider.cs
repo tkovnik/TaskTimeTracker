@@ -21,5 +21,6 @@ namespace TaskTimeTracker.Storage
         Task<StorageResult> StoreTempIteration(string json, string uri);
         Task<StorageResult> LoadTempIteration(string uri);
         Task<StorageResult> DeleteTempIteration(string uri);
+        Task<StorageResult> LoadStoredIterations(string uri); 
     }
 }

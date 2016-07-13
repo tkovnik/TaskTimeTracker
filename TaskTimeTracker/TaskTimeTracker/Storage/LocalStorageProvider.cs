@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskTimeTracker.Common.Model;
+using TaskTimeTracker.Model;
 
 namespace TaskTimeTracker.Storage
 {
@@ -169,7 +170,7 @@ namespace TaskTimeTracker.Storage
                     result.Result = txt;
                     result.Status = StorageStatus.Success;
                     //TODO: put string in resource file
-                    result.Message = string.Format("Temp iteration was loaded.");
+                    result.Message = "Temp iteration was loaded.";
                 }
                 else
                 {
@@ -183,6 +184,68 @@ namespace TaskTimeTracker.Storage
                 result.Message = ex.Message;
             }
 
+            return result;
+        }
+
+        public async Task<StorageResult> LoadStoredIterations(string uri)
+        {
+            var fileNames = Directory.EnumerateFiles(uri, "*.*", SearchOption.TopDirectoryOnly).Where(a => a.EndsWith(".json"));
+            StorageResult result = new StorageResult();
+            result.Status = StorageStatus.Success;
+
+            StringBuilder sbErrors = new StringBuilder();
+
+            try
+            {
+                List<BrowsedIteration> browsedIterations = new List<BrowsedIteration>();
+                foreach (string fileName in fileNames)
+                {
+                    string txt = await Task<string>.Run(() => File.ReadAllText(fileName));
+
+                    if(!string.IsNullOrEmpty(txt))
+                    {
+                        Iteration iteration = JsonConvert.DeserializeObject<Iteration>(txt);
+
+                        if(iteration != null)
+                        {
+                            browsedIterations.Add(new BrowsedIteration()
+                            {
+                                Source = fileName,
+                                Name = new FileInfo(fileName).Name,
+                                Iteration = iteration
+                            });
+                            
+                        }
+                        else
+                        {
+                            sbErrors.AppendLine(string.Format("File: {0} does not contain iteration", fileName));
+                            result.Status = StorageStatus.Warning;
+                        }
+
+                    }
+                    else
+                    {
+                        sbErrors.AppendLine(string.Format("File: {0} does not contain iteration", fileName));
+                        result.Status = StorageStatus.Warning;
+                    }
+                }
+                result.Result = browsedIterations;
+                result.Message = "Files loaded";
+                
+            }
+            catch (Exception ex)
+            {
+                result.Message = string.Format("Error: {0}", ex.Message);
+                result.Status = StorageStatus.Error;
+            }
+
+
+            string errorWarnings = sbErrors.ToString();
+            if(!string.IsNullOrEmpty(errorWarnings))
+            {
+                result.Status = StorageStatus.Warning;
+                result.Message = errorWarnings;
+            }
             return result;
         }
 
@@ -204,5 +267,7 @@ namespace TaskTimeTracker.Storage
 
             return result;
         }
+
+
     }
 }

@@ -168,13 +168,21 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Name="tiStatistics" Header="Statistics" BorderBrush="#E8EEF1" BorderThickness="0, 0, 2, 0">
+            <TabItem Name="tiResult" Header="Result" BorderBrush="#E8EEF1" BorderThickness="0, 0, 2, 0">
                 <StackPanel Orientation="Vertical">
                     <TextBox Name="tpTemp" Margin="5" FontSize="14" Height="300" TextWrapping="Wrap" VerticalAlignment="Stretch" Text="{Binding PrettyIterationPrint}" />
                 </StackPanel>
             </TabItem>
 
-            <TabItem Name="tiTest" Header="Header 3">
+            <TabItem Name="tiIterationBrowser" Header="Browser" BorderBrush="#E8EEF1" BorderThickness="0, 0, 2, 0">
+                <ContentPresenter>
+                    <ContentPresenter.Content>
+                        <view:IterationBrowserView />
+                    </ContentPresenter.Content>
+                </ContentPresenter>
+            </TabItem>
+            
+            <TabItem Name="tiStatistics" Header="Statistics">
                 <ContentPresenter>
                     <ContentPresenter.Content>
                         <view:StatisticsView />
