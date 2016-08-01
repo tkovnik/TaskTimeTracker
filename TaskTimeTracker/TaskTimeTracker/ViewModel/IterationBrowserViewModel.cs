@@ -65,7 +65,7 @@ namespace TaskTimeTracker.ViewModel
         {
             LocalStorageProvider provider = new LocalStorageProvider();
 
-            StorageResult result = await provider.LoadStoredIterations(directory);
+            StorageResult result = await provider.LoadStoredIterationsAsync(directory);
 
             if((result.Status == StorageStatus.Success || result.Status == StorageStatus.Warning) && result.Result != null)
             {

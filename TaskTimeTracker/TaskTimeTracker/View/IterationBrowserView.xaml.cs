@@ -21,7 +21,7 @@ namespace TaskTimeTracker.View
 
         private void LoadIterations(object sender, System.Windows.RoutedEventArgs e)
         {
-            
+            _ViewModel.LoadIterations(@"C:\Projekti\GitHub\TaskTimeTracker\TaskTimeTracker\TaskTimeTracker\TaskTimeTracker\bin\Debug\Iterations");
             //System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog();
 
             //if(dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dlg.SelectedPath))

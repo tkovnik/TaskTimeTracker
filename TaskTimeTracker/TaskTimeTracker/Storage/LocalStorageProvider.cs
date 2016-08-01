@@ -187,9 +187,11 @@ namespace TaskTimeTracker.Storage
             return result;
         }
 
-        public async Task<StorageResult> LoadStoredIterations(string uri)
+        public async Task<StorageResult> LoadStoredIterationsAsync(string uri, bool checkSubFolders = false)
         {
-            var fileNames = Directory.EnumerateFiles(uri, "*.*", SearchOption.TopDirectoryOnly).Where(a => a.EndsWith(".json"));
+            SearchOption so = checkSubFolders ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+            var fileNames = Directory.EnumerateFiles(uri, "*.*", so).Where(a => a.EndsWith(".json"));
             StorageResult result = new StorageResult();
             result.Status = StorageStatus.Success;
 

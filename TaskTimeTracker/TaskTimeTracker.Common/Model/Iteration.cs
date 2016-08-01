@@ -69,6 +69,24 @@ namespace TaskTimeTracker.Common.Model
             }
         }
 
+        public TimeSpan TotalTime
+        {
+            get
+            {
+                TimeSpan ts = new TimeSpan(0, 0, 0);
+
+                foreach (var item in Duties)
+                {
+                    if (item.TotalTimeSpent > TimeSpan.MinValue)
+                    {
+                        ts += item.TotalTimeSpent;
+                    }
+                }
+
+                return ts;
+            }
+        }
+
         #endregion
 
         #region INotify

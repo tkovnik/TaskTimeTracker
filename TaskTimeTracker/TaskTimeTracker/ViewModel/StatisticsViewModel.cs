@@ -5,17 +5,97 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskTimeTracker.Common.Model;
+using TaskTimeTracker.Model;
+using TaskTimeTracker.Storage;
 using TaskTimeTracker.ViewModel.Base;
 
 namespace TaskTimeTracker.ViewModel
 {
     public class StatisticsViewModel : ViewModelBase
     {
+        #region Fields
+
+        BasicStatistic _BasicStatistics;
+        #endregion
+
         #region Constructors
 
         public StatisticsViewModel()
         {
             InitTestStatistics();
+
+            // TODO: add property to UI for DefaultHourWorkDay
+            DefaultHourWorkDay = new TimeSpan(8, 0, 0);
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        public TimeSpan DefaultHourWorkDay { get; set; }
+
+        public bool CheckSubFolder { get; set; }
+
+        public ObservableCollection<BrowsedIteration> BrowsedIterations { get; private set; }
+
+        public BasicStatistic BasicStatistics
+        {
+            get { return _BasicStatistics; }
+            private set
+            {
+                _BasicStatistics = value;
+                NotifyPropertyChanged(() => this.BasicStatistics);
+            } 
+        }
+
+        #endregion
+
+        #region Basic statistics
+
+        #region Public Methods
+
+        public async void LoadIterations(string directory)
+        {
+            LocalStorageProvider provider = new LocalStorageProvider();
+
+            StorageResult result = await provider.LoadStoredIterationsAsync(directory, CheckSubFolder);
+
+
+            if(result.Status == StorageStatus.Success || result.Status == StorageStatus.Warning)
+            {
+                BrowsedIterations = new ObservableCollection<BrowsedIteration>((List<BrowsedIteration>)result.Result);
+
+                // Generate statistics
+                GenerateBasicStatistics();
+            }
+        }
+
+        #endregion
+
+        private void GenerateBasicStatistics()
+        {
+            if(BrowsedIterations != null && BrowsedIterations.Count > 0)
+            {
+                BasicStatistic stat = new BasicStatistic();
+
+                foreach (BrowsedIteration iteration in BrowsedIterations)
+                {
+                    stat.DaysCount++;
+
+                    TimeSpan total = iteration.Iteration.TotalTime;
+                    stat.HoursSpent += total;
+
+                    if(total > DefaultHourWorkDay)
+                    {
+                        //we have overtime
+                        TimeSpan overtime = total - DefaultHourWorkDay;
+                        stat.Overtime += overtime;
+                    }                  
+                }
+
+                BasicStatistics = stat;
+                 
+            }
         }
 
         #endregion
@@ -78,6 +158,26 @@ namespace TaskTimeTracker.ViewModel
         }
 
         #endregion
+    }
+
+    public class BasicStatistic
+    {
+        public BasicStatistic()
+        {
+            HoursSpent = new TimeSpan(0, 0, 0);
+            Overtime = new TimeSpan(0, 0, 0);
+        }
+
+        public int DaysCount { get; set; }
+        public TimeSpan HoursSpent { get; set; }
+        public TimeSpan Overtime { get; set; }
+        public WorkingDay LongestWorkingDay { get; set; }
+    }
+
+    public class WorkingDay
+    {
+        public TimeSpan TimeSpent { get; set; }
+        public DateTime Date { get; set; }
     }
 
     public class DutyWrapper

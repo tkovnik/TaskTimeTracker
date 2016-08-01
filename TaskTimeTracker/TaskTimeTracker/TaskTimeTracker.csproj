@@ -84,6 +84,9 @@
     <Compile Include="ViewModel\IterationBrowserViewModel.cs" />
     <Compile Include="ViewModel\StatisticsViewModel.cs" />
     <Compile Include="ViewModel\Workspace.cs" />
+    <Compile Include="View\BasicStatisticsView.xaml.cs">
+      <DependentUpon>BasicStatisticsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BindingProxy.cs" />
     <Compile Include="View\Controls\AppearanceSetting.xaml.cs">
       <DependentUpon>AppearanceSetting.xaml</DependentUpon>
@@ -115,6 +118,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\BasicStatisticsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\AppearanceSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
