@@ -82,12 +82,28 @@ namespace TaskTimeTracker.Storage
 
                 string path = Path.Combine(uri, filename);
 
-                string json = await Task<string>.Run(() => File.ReadAllText(path));
+                if (File.Exists(path))
+                {
+                    string json = await Task<string>.Run(() => File.ReadAllText(path));
 
-                result.Result = json;
-                result.Status = StorageStatus.Success;
-                //TODO: put string in resource file
-                result.Message = string.Format("Groups were successfully loaded.");
+                    result.Result = json;
+                    result.Status = StorageStatus.Success;
+                    //TODO: put string in resource file
+                    result.Message = string.Format("Groups were successfully loaded.");
+                }
+                else
+                {
+                    // Create empty groups file
+                    string emptyGroupsJson = "[]";
+                    using (StreamWriter file = File.CreateText(path))
+                    {
+                        await file.WriteAsync(emptyGroupsJson);
+                    }
+
+                    result.Result = emptyGroupsJson;
+                    result.Status = StorageStatus.Success;
+                    result.Message = string.Format("Groups file created with empty array.");
+                }
             }
             catch (Exception ex)
             {
@@ -108,12 +124,28 @@ namespace TaskTimeTracker.Storage
 
                 string path = Path.Combine(uri, filename);
 
-                string txt = await Task<string>.Run(() => File.ReadAllText(path));
+                if (File.Exists(path))
+                {
+                    string txt = await Task<string>.Run(() => File.ReadAllText(path));
 
-                result.Result = txt;
-                result.Status = StorageStatus.Success;
-                //TODO: put string in resource file
-                result.Message = string.Format("Keywords were successfully loaded.");
+                    result.Result = txt;
+                    result.Status = StorageStatus.Success;
+                    //TODO: put string in resource file
+                    result.Message = string.Format("Keywords were successfully loaded.");
+                }
+                else
+                {
+                    // Create empty keywords file
+                    string emptyKeywords = "";
+                    using (StreamWriter file = File.CreateText(path))
+                    {
+                        await file.WriteAsync(emptyKeywords);
+                    }
+
+                    result.Result = emptyKeywords;
+                    result.Status = StorageStatus.Success;
+                    result.Message = string.Format("Keywords file created as empty.");
+                }
             }
             catch (Exception ex)
             {
