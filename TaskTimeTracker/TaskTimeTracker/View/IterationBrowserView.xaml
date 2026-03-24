@@ -15,7 +15,7 @@
             </Grid.RowDefinitions>
             
             <StackPanel Grid.Row="0">
-                <Button Content="Load iterations" Style="{DynamicResource AccentedSquareButtonStyle}" BorderThickness="0" Click="LoadIterations"/>
+                <Button Content="Load iterations" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" BorderThickness="0" Click="LoadIterations"/>
             </StackPanel>
 
             <Grid Grid.Row="1">

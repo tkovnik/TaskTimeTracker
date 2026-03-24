@@ -21,7 +21,7 @@
                 <GroupBox Header="Load" Grid.Row="0" Grid.Column="0">
                     <StackPanel Orientation="Vertical">
                         <CheckBox Name="rbFolderDepth" Content="Use subfolders" />
-                        <Button Name="btnLoadIterations" Content="Load" Style="{DynamicResource AccentedSquareButtonStyle}" BorderBrush="#1484B4" Margin="0,5,0,0" Click="LoadIterations" />
+                        <Button Name="btnLoadIterations" Content="Load" Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" BorderBrush="#1484B4" Margin="0,5,0,0" Click="LoadIterations" />
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Filter" Grid.Column="1" Grid.Row="0">

@@ -1,4 +1,4 @@
-﻿using MahApps.Metro;
+using ControlzEx.Theming;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,8 +65,7 @@ namespace TaskTimeTracker.ViewModel
                 _SelectedAccent = value;
 
                 //Lets set app accent
-                var theme = ThemeManager.DetectAppStyle();
-                ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(value.Key), theme.Item1);
+                ThemeManager.Current.ChangeThemeColorScheme(Application.Current, value.Key);
 
             }
         }
@@ -79,8 +78,7 @@ namespace TaskTimeTracker.ViewModel
                 _SelectedTheme = value;
 
                 //Lets set app theme
-                var theme = ThemeManager.DetectAppStyle();
-                ThemeManager.ChangeAppStyle(Application.Current, theme.Item2, ThemeManager.GetAppTheme(value.Key));
+                ThemeManager.Current.ChangeThemeBaseColor(Application.Current, value.Key);
             }
         }
 
@@ -94,15 +92,15 @@ namespace TaskTimeTracker.ViewModel
 
         private void InitializeDefaultThemes()
         {
-            _Themes.Add("BaseDark", (Color)ColorConverter.ConvertFromString("#252525"));
-            _Themes.Add("BaseLight", (Color)ColorConverter.ConvertFromString("#FFFFFF"));
+            _Themes.Add("Dark", (Color)ColorConverter.ConvertFromString("#252525"));
+            _Themes.Add("Light", (Color)ColorConverter.ConvertFromString("#FFFFFF"));
         }
 
         private void InitializeDefaultAccents()
         {
             _Accents.Add("Red", (Color)ColorConverter.ConvertFromString("#EA4333"));
             _Accents.Add("Green", (Color)ColorConverter.ConvertFromString("#80BA45"));
-            _Accents.Add("Blue", (Color)ColorConverter.ConvertFromString("#1585B5"));                       
+            _Accents.Add("Blue", (Color)ColorConverter.ConvertFromString("#1585B5"));
             _Accents.Add("Purple", (Color)ColorConverter.ConvertFromString("#837AE5"));
             _Accents.Add("Orange", (Color)ColorConverter.ConvertFromString("#FB8633"));
             _Accents.Add("Lime", (Color)ColorConverter.ConvertFromString("#B6D033"));

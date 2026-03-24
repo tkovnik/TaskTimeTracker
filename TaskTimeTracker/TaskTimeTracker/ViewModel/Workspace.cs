@@ -220,7 +220,7 @@ namespace TaskTimeTracker.ViewModel
 
         private async void LoadTempIteration()
         {
-            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+            var directory = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "Iterations", "Common"));
 
             LocalStorageProvider provider = new LocalStorageProvider();
             StorageResult result = await provider.LoadTempIteration(directory.FullName);
@@ -244,7 +244,7 @@ namespace TaskTimeTracker.ViewModel
 
         private async void StoreTempIteration()
         {
-            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+            var directory = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "Iterations", "Common"));
 
             LocalStorageProvider provider = new LocalStorageProvider();
 
@@ -327,7 +327,7 @@ namespace TaskTimeTracker.ViewModel
 
             SetPrettyIterationPrint();
 
-            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations"));
+            var directory = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "Iterations"));
 
             //TODO: add proper factory infrastructure
             LocalStorageProvider storage = new LocalStorageProvider();
@@ -339,7 +339,7 @@ namespace TaskTimeTracker.ViewModel
             NotifyPropertyChanged(() => CurrentDutyGroup);
             ResetAndStopTimer();
 
-            var directoryTemp = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+            var directoryTemp = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "Iterations", "Common"));
             await storage.DeleteTempIteration(directoryTemp.FullName);
         }
 
@@ -575,7 +575,7 @@ namespace TaskTimeTracker.ViewModel
 
         private async void SyncDutyGroups()
         {
-            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+            var directory = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "Iterations", "Common"));
 
             //TODO: add proper factory infrastructure
             LocalStorageProvider storage = new LocalStorageProvider();
@@ -587,7 +587,7 @@ namespace TaskTimeTracker.ViewModel
         {
             LocalStorageProvider storage = new LocalStorageProvider();
 
-            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+            var directory = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "Iterations", "Common"));
 
             StorageResult = await storage.LoadGroups(directory.FullName);
 
@@ -615,7 +615,7 @@ namespace TaskTimeTracker.ViewModel
         {
             LocalStorageProvider storage = new LocalStorageProvider();
 
-            var directory = Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Iterations", "Common"));
+            var directory = Directory.CreateDirectory(Path.Combine(AppContext.BaseDirectory, "Iterations", "Common"));
 
             StorageResult = await storage.LoadKeywords(directory.FullName);
 

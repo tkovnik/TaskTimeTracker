@@ -19,7 +19,7 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" Margin="-2,2,2,2">
+                        <Border BorderThickness="1" BorderBrush="{DynamicResource MahApps.Brushes.Accent}" Margin="-2,2,2,2">
                             <Rectangle Width="40" Height="40">
                             <Rectangle.Fill>
                                 <SolidColorBrush x:Name="Brush" Color="{Binding Value}"/>
